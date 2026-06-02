@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Inducción Bioseguridad - AmericaSalud</title>
+
+<!-- Google Fonts: Poppins (Títulos) e Inter (Cuerpo) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+<style>
+  /* ============================================================
+     PALETA DE MARCA - AmericaSalud (Ajustada)
+     ============================================================ */
+  :root {
+    --c-blue-main: #5271ff;       /* Principal - Acción, énfasis */
+    --c-blue-soft: rgba(82, 113, 255, 0.1); 
+    --c-blue-dark: #052c63;       /* Oscuro - Textos principales, barra superior */
+    --c-blue-accent: #1e4b8f;     /* Acentos oscuros */
+    --c-sea: #00b894;             /* Sea Green - Éxito, correcto */
+    --c-sage: #91a7ff;            /* Detalles sutiles y transiciones */
+    --c-white: #FFFFFF;
+    --c-bg: #F4F7FB;              /* Fondo exterior */
+    --c-text-muted: #4A5A7A;      /* Texto secundario legible */
+    --c-border: #E2E8F0;
+
+    --shadow-sm: 0 2px 6px rgba(5, 44, 99, 0.06);
+    --shadow-md: 0 8px 24px rgba(5, 44, 99, 0.10);
+    --shadow-lg: 0 18px 48px rgba(5, 44, 99, 0.18);
+
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 22px;
+
+    --font-display: 'Poppins', system-ui, sans-serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    min-height: 100%;
+    font-family: var(--font-body);
+    color: var(--c-blue-dark);
+    background: var(--c-bg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 24px;
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(82, 113, 255, 0.08), transparent 40%),
+      radial-gradient(circle at 90% 100%, rgba(5, 44, 99, 0.05), transparent 45%),
+      var(--c-bg);
+  }
+
+  /* ============================================================
+     CONTENEDOR PRINCIPAL (STAGE)
+     ============================================================ */
+  .stage {
+    width: 100%;
+    max-width: 1180px;
+    height: 600px;
+    background: var(--c-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+  }
+
+  /* Barra superior */
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 32px;
+    background: var(--c-blue-dark);
+    color: var(--c-white);
+    font-family: var(--font-display);
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
+
+  .topbar .module-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+  }
+
+  .topbar .module-tag .dot {
+    width: 8px;
+    height: 8px;
+    background: var(--c-blue-main);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(82, 113, 255, 0.25);
+    animation: pulseDot 2.4s ease-in-out infinite;
+  }
+
+  @keyframes pulseDot {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(82, 113, 255, 0.25); }
+    50% { box-shadow: 0 0 0 8px rgba(82, 113, 255, 0.10); }
+  }
+
+  .topbar .lesson-title {
+    font-weight: 500;
+    opacity: 0.85;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .sound-toggle {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--c-white);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+  .sound-toggle:hover { background: rgba(255, 255, 255, 0.22); }
+  .sound-toggle i { font-size: 18px; }
+
+  /* Barra de progreso */
+  .progress-wrap {
+    padding: 14px 32px 0;
+    background: var(--c-white);
+    flex-shrink: 0;
+  }
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--c-text-muted);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .progress-info b { font-family: var(--font-display); color: var(--c-blue-dark); font-weight: 700; }
+  .progress-track { height: 6px; background: #EAEEF6; border-radius: 999px; overflow: hidden; }
+  .progress-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--c-sage), var(--c-blue-main));
+    border-radius: 999px;
+    transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* ============================================================
+     SLIDES (ÁREA DE CONTENIDO)
+     ============================================================ */
+  .slides {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 32px;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .slide { display: none; animation: fadeIn 0.4s ease both; flex: 1; flex-direction: column; }
+  .slide.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .slide > h2 { font-family: var(--font-display); font-weight: 800; color: var(--c-blue-dark); line-height: 1.2; margin-bottom: 12px; font-size: clamp(22px, 2.5vw, 28px); display: flex; align-items: center; gap: 8px;}
+  .slide > h2 i { color: var(--c-blue-main); font-size: 32px; }
+  .slide > p { font-size: 16px; line-height: 1.65; color: var(--c-text-muted); margin-bottom: 24px; max-width: 100%; }
+  
+  strong { color: var(--c-blue-dark); }
+
+  /* ============================================================
+     COMPONENTES INTERACTIVOS
+     ============================================================ */
+  
+  .content-constrained {
+    width: 100%;
+  }
+
+  .card-style {
+    background: var(--c-white);
+    border: 1.5px solid var(--c-border);
+    border-radius: var(--radius-md);
+    padding: 24px 32px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+  }
+
+  /* S1: Portada */
+  .welcome { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; flex: 1; }
+  .welcome h1 { font-family: var(--font-display); font-weight: 800; color: var(--c-blue-dark); line-height: 1.2; margin-bottom: 16px; font-size: clamp(28px, 3.4vw, 40px); }
+  .welcome p { font-size: 16px; line-height: 1.65; color: var(--c-text-muted); margin-bottom: 16px; }
+  .eyebrow {
+    display: inline-block; background: var(--c-blue-soft); color: var(--c-blue-main); font-family: var(--font-display);
+    font-weight: 700; font-size: 12px; letter-spacing: 1.4px; padding: 6px 12px; border-radius: 999px; margin-bottom: 18px; text-transform: uppercase;
+  }
+  .welcome-art { width: 100%; aspect-ratio: 4/3; border-radius: var(--radius-lg); background: transparent; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .welcome-art svg { width: 100%; height: 100%; max-height: 360px; }
+
+  /* S2: Objetivo */
+  .obj-layout { display: block; width: 100%; }
+  .obj-text-card { border-left: 4px solid var(--c-blue-main); padding: 32px 40px; }
+
+  /* S3: Pestañas */
+  .tabs-nav { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; width: 100%; }
+  .tab-btn {
+    flex: 1; min-width: 120px; padding: 16px 20px; background: var(--c-bg); border: 1.5px solid var(--c-border);
+    border-radius: var(--radius-sm); font-family: var(--font-display); font-weight: 600; color: var(--c-text-muted); 
+    cursor: pointer; transition: all 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px;
+    font-size: 1.15rem;
+  }
+  .tab-btn:hover { background: var(--c-white); border-color: var(--c-blue-main); }
+  .tab-btn.active { background: var(--c-white); border-color: var(--c-blue-main); color: var(--c-blue-main); box-shadow: var(--shadow-md); }
+  .tab-btn i.check { color: var(--c-sea); font-size: 18px; display: none; font-weight: bold; }
+  .tab-btn.visited i.check { display: inline-block; animation: fadeIn 0.3s ease; }
+  
+  .tabs-box { padding: 32px 40px; margin-bottom: 32px; width: 100%; } 
+  .tab-content { display: none; }
+  .tab-content.active { display: flex; justify-content: center; align-items: center; text-align: center; font-size: 1.1rem; color: var(--c-blue-dark); animation: fadeIn 0.4s ease; }
+  .tab-content p { margin: 0; color: var(--c-blue-dark); }
+
+  /* S4: Hotspots */
+  .phone-container { display: flex; justify-content: center; align-items: center; margin-top: 16px; margin-bottom: 32px; position: relative; width: 100%; }
+  .phone-mockup {
+    width: 280px; height: 540px; border: 12px solid var(--c-blue-dark); border-radius: 36px; background: var(--c-blue-dark);
+    position: relative; display: flex; flex-direction: column;
+    box-shadow: var(--shadow-md); font-family: var(--font-body);
+  }
+  .phone-screen {
+    background: #F8F9FA; border-radius: 24px; overflow: hidden; width: 100%; height: 100%; display: flex; flex-direction: column; position: relative;
+  }
+  
+  /* Interfaz interna app AmericaSalud */
+  .sq-header { background: var(--c-blue-main); color: #fff; padding: 18px 16px; display: flex; align-items: center; gap: 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+  .sq-header i { font-size: 16px; font-weight: bold; }
+  .sq-body { padding: 12px; display: flex; flex-direction: column; gap: 12px; flex: 1; overflow-y: auto; }
+  .sq-card { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); text-align: center; }
+  .sq-label { font-size: 10px; font-weight: 700; color: var(--c-blue-dark); margin-bottom: 2px; }
+  .sq-val { font-size: 10px; color: #444; margin-bottom: 12px; }
+  .sq-badge { background: #E3B30C; color: #111; border: 2px solid #111; padding: 6px 12px; font-weight: 800; font-size: 12px; display: inline-block; margin-bottom: 12px; }
+  .sq-desc { font-size: 9px; line-height: 1.4; color: #222; text-transform: uppercase; }
+  .sq-diamonds { display: flex; justify-content: center; gap: 16px; padding: 0; }
+  .sq-docs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .sq-doc-btn { background: #e2e8f0; border-radius: 4px; padding: 10px 4px; text-align: center; font-size: 9px; font-weight: 700; color: #333; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .sq-doc-btn i { font-size: 16px; color: var(--c-blue-main); }
+  .sq-danger { background: #d32f2f; color: #fff; padding: 14px; border-radius: 6px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 12px; font-weight: 700; margin: 4px 0 0 0; }
+  .sq-link { text-align: center; color: var(--c-blue-main); font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 4px; margin-top: 4px; }
+
+  .hotspot {
+    position: absolute; width: 30px; height: 30px; background: var(--c-blue-main); border-radius: 50%;
+    cursor: pointer; border: 3px solid var(--c-white); box-shadow: 0 0 0 0 rgba(82, 113, 255, 0.6);
+    animation: pulseHs 1.5s infinite; z-index: 5; transition: background 0.3s;
+  }
+  @keyframes pulseHs { to { box-shadow: 0 0 0 15px rgba(82, 113, 255, 0); } }
+  .hotspot.visited { background: var(--c-sea); animation: none; box-shadow: var(--shadow-md); border-color: var(--c-white); }
+  
+  .tooltip {
+    position: absolute; background: var(--c-white); border-left: 4px solid var(--c-blue-main);
+    padding: 16px; border-radius: var(--radius-sm); width: 240px; font-size: 0.95rem; text-align: left;
+    z-index: 100; display: none; box-shadow: var(--shadow-lg); font-family: var(--font-body); color: var(--c-blue-dark);
+  }
+
+  /* S5: Acordeón */
+  .accordion-list { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+  .acc-item { background: var(--c-white); border: 1.5px solid var(--c-border); border-radius: var(--radius-sm); overflow: hidden; transition: all 0.3s; }
+  .acc-header {
+    padding: 16px 20px; font-family: var(--font-display); font-weight: 600; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center; background: var(--c-bg); color: var(--c-blue-dark);
+  }
+  .acc-header:hover { background: var(--c-white); }
+  .acc-header.visited { border-left: 4px solid var(--c-blue-main); }
+  .acc-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; }
+  .acc-body p { margin-bottom: 0; }
+  .acc-item.open { border-color: var(--c-blue-main); box-shadow: var(--shadow-sm); }
+  .acc-item.open .acc-body { padding: 16px 20px; max-height: 200px; border-top: 1px solid var(--c-border); }
+
+  /* S6: Monitoreo Cards */
+  .cards-list { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 100%; }
+
+  /* S7 & S8: Quizzes */
+  .options { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+  .option-btn {
+    text-align: left; padding: 18px 24px; border: 1.5px solid var(--c-border); border-radius: var(--radius-sm);
+    background: var(--c-white); cursor: pointer; transition: all 0.2s; font-family: var(--font-body); font-size: 15px; color: var(--c-blue-dark);
+  }
+  .option-btn:hover:not(:disabled) { border-color: var(--c-blue-main); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+  .option-btn.correct { border-color: var(--c-sea); background: rgba(0, 184, 148, 0.05); }
+  .option-btn.incorrect { border-color: var(--c-blue-main); opacity: 0.6; }
+  
+  .feedback-box { margin-top: 24px; padding: 18px 24px; border-radius: var(--radius-sm); display: none; font-size: 15px; animation: fadeIn 0.4s ease; width: 100%; }
+  .feedback-box strong { display: block; font-family: var(--font-display); margin-bottom: 8px; }
+  .feedback-box.success { background: rgba(0, 184, 148, 0.1); color: var(--c-blue-dark); border-left: 4px solid var(--c-sea); }
+  .feedback-box.error { background: var(--c-blue-soft); color: var(--c-blue-dark); border-left: 4px solid var(--c-blue-main); }
+
+  /* S9: Resumen */
+  .board { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 100%; }
+  .sticky {
+    background: var(--c-white); border: 1.5px solid var(--c-border); padding: 24px; border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm); position: relative;
+  }
+  .sticky .check-icon {
+    position: absolute; top: -10px; right: -10px; width: 32px; height: 32px;
+    background: var(--c-sea); color: var(--c-white); border-radius: 50%;
+    display: flex; justify-content: center; align-items: center; font-size: 18px; font-weight: bold; border: 2px solid var(--c-white);
+  }
+
+  /* S10: Cierre */
+  .complete-screen { text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+  .complete-screen h2 { font-family: var(--font-display); font-weight: 800; color: var(--c-blue-dark); line-height: 1.2; margin-bottom: 16px; font-size: clamp(28px, 3.4vw, 40px); }
+  .complete-screen p { font-size: 16px; line-height: 1.65; color: var(--c-text-muted); margin-bottom: 16px; }
+  .complete-screen .badge-icon {
+    width: 110px; height: 110px; background: linear-gradient(135deg, var(--c-blue-main), #7a94ff);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;
+    box-shadow: 0 18px 40px rgba(82, 113, 255, 0.3); color: var(--c-white); font-size: 50px;
+  }
+
+  /* ============================================================
+     BOTONES Y FOOTER
+     ============================================================ */
+  .footer-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 32px;
+    border-top: 1px solid var(--c-border);
+    background: var(--c-white);
+    flex-shrink: 0;
+  }
+
+  .footer-bar .helper {
+    font-size: 13px; color: var(--c-text-muted); display: flex; align-items: center; gap: 8px;
+    transition: opacity 0.3s;
+  }
+  .footer-bar .helper i { font-size: 20px; color: var(--c-blue-main); }
+
+  .btn {
+    font-family: var(--font-display); font-weight: 600; font-size: 14.5px; letter-spacing: 0.3px;
+    padding: 13px 26px; border-radius: 999px; border: none; cursor: pointer; display: inline-flex;
+    align-items: center; gap: 10px; transition: all 0.25s ease; text-decoration: none;
+  }
+
+  .btn-primary {
+    background: var(--c-blue-main); color: var(--c-white); box-shadow: 0 6px 18px rgba(82, 113, 255, 0.35);
+  }
+  .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(82, 113, 255, 0.45); }
+  .btn-primary:disabled { background: #E2E8F0; color: #94A3B8; cursor: not-allowed; box-shadow: none; transform: none; }
+
+  .btn-secondary {
+    background: var(--c-bg); color: var(--c-blue-dark); border: 1.5px solid var(--c-border);
+  }
+  .btn-secondary:hover:not(:disabled) { background: var(--c-border); transform: translateY(-2px); }
+
+  /* ============================================================
+     RESPONSIVE
+     ============================================================ */
+  @media (max-width: 880px) {
+    .stage { height: auto; min-height: 100vh; border-radius: 0; }
+    .welcome { grid-template-columns: 1fr; gap: 24px; text-align: center; }
+    .welcome-art { order: -1; aspect-ratio: 16/9; }
+    .cards-list { grid-template-columns: 1fr; } 
+    .board { grid-template-columns: 1fr; } 
+  }
+
+  @media (max-width: 540px) {
+    body { padding: 0; }
+    .topbar { padding: 14px 16px; }
+    .topbar .lesson-title { display: none; }
+    .progress-wrap { padding: 12px 18px 0; }
+    .slides { padding: 24px 20px; }
+    .welcome-text h1 { font-size: 26px; }
+    .footer-bar { flex-direction: column; align-items: stretch; gap: 16px; text-align: center; padding: 20px; }
+    .footer-bar .helper { justify-content: center; }
+    .btn { justify-content: center; }
+    .tab-content { flex-direction: column; text-align: center; }
+    .phone-container { margin-bottom: 90px; } 
+    .phone-mockup { transform: scale(0.9); }
+    .tooltip { 
+      top: auto !important; bottom: -80px !important; 
+      left: 50% !important; right: auto !important; 
+      transform: translateX(-50%) !important; width: 280px; text-align: center;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="stage" role="region" aria-label="Módulo interactivo">
+
+  <!-- Barra superior -->
+  <div class="topbar">
+    <div class="module-tag">
+      <span class="dot" aria-hidden="true"></span>
+      <span>INDUCCIÓN BIOSEGURIDAD</span>
+    </div>
+    <div class="topbar-right">
+      <div class="lesson-title">Manejo de REAS y Protocolos</div>
+      <button class="sound-toggle" id="soundToggle" aria-label="Activar/desactivar sonido" title="Sonido">
+        <i class="ph ph-speaker-high" id="soundOnIcon"></i>
+        <i class="ph ph-speaker-slash" id="soundOffIcon" style="display:none;"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Barra de progreso -->
+  <div class="progress-wrap" id="progressWrap" style="display:none;">
+    <div class="progress-info">
+      <span id="progressText">Tu avance en la lección</span>
+      <span><b id="progressCount">1</b> / 10 pantallas</span>
+    </div>
+    <div class="progress-track" aria-hidden="true">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <div class="slides">
+
+    <!-- Slide 1: Portada (Ilustración 3D Clínica) -->
+    <section class="slide active" id="slide-0">
+      <div class="welcome">
+        <div class="welcome-text">
+          <span class="eyebrow">Inducción Clínica</span>
+          <h1>Manejo de REAS y Bioseguridad</h1>
+          <p>Avanza a la siguiente pantalla para comenzar tu recorrido interactivo en AmericaSalud.</p>
+        </div>
+        <div class="welcome-art">
+          <!-- Animación Isométrica 3D Clínica (Caja Cortopunzante y Bolsa Roja) -->
+          <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%; max-width: 400px;">
+            <defs>
+              <linearGradient id="boxGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#FACC15"/>
+                <stop offset="100%" stop-color="#CA8A04"/>
+              </linearGradient>
+              <linearGradient id="boxTopGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FEF08A"/>
+                <stop offset="100%" stop-color="#EAB308"/>
+              </linearGradient>
+              <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#EF4444"/>
+                <stop offset="100%" stop-color="#B91C1C"/>
+              </linearGradient>
+            </defs>
+            
+            <circle cx="250" cy="250" r="180" fill="rgba(82, 113, 255, 0.05)" />
+            
+            <g>
+              <animateTransform attributeName="transform" type="translate" values="0,8; 0,-4; 0,8" dur="4.5s" repeatCount="indefinite"/>
+              
+              <!-- Sombra dinámica -->
+              <ellipse cx="250" cy="380" rx="90" ry="25" fill="rgba(5, 44, 99, 0.12)">
+                <animate attributeName="ry" values="25; 32; 25" dur="4.5s" repeatCount="indefinite"/>
+                <animate attributeName="rx" values="90; 105; 90" dur="4.5s" repeatCount="indefinite"/>
+              </ellipse>
+              
+              <!-- Contenedor Rojo (Atrás) -->
+              <g transform="translate(-50, -20) scale(0.9)">
+                 <path d="M 170,180 L 170,330 A 60,20 0 0,0 290,330 L 290,180 Z" fill="url(#redGrad)"/>
+                 <path d="M 170,180 A 60,20 0 0,0 290,180 A 60,20 0 0,0 170,180" fill="#F87171"/>
+                 <!-- Símbolo Biológico simplificado -->
+                 <circle cx="230" cy="250" r="15" fill="none" stroke="#7F1D1D" stroke-width="4"/>
+                 <circle cx="215" cy="235" r="10" fill="none" stroke="#7F1D1D" stroke-width="4"/>
+                 <circle cx="245" cy="235" r="10" fill="none" stroke="#7F1D1D" stroke-width="4"/>
+                 <circle cx="230" cy="265" r="10" fill="none" stroke="#7F1D1D" stroke-width="4"/>
+              </g>
+
+              <!-- Caja Cortopunzantes Amarilla (Frente) -->
+              <g transform="translate(60, 40) scale(1.1)">
+                <path d="M 160,180 L 150,300 L 270,300 L 260,180 Z" fill="url(#boxGrad)"/>
+                <path d="M 160,180 L 260,180 L 245,160 L 175,160 Z" fill="url(#boxTopGrad)"/>
+                <path d="M 170,150 L 250,150 L 250,160 L 170,160 Z" fill="#EF4444"/> <!-- Tapa Roja -->
+                <rect x="200" y="152" width="20" height="6" fill="#111" rx="2"/> <!-- Ranura -->
+                
+                <!-- Símbolo Biológico en la caja -->
+                <circle cx="210" cy="220" r="10" fill="none" stroke="#111" stroke-width="3"/>
+                <circle cx="200" cy="210" r="7" fill="none" stroke="#111" stroke-width="3"/>
+                <circle cx="220" cy="210" r="7" fill="none" stroke="#111" stroke-width="3"/>
+                <circle cx="210" cy="230" r="7" fill="none" stroke="#111" stroke-width="3"/>
+              </g>
+
+              <!-- Partículas flotantes (tipo cruz médica / estrellas) -->
+              <g fill="#00b894" opacity="0.8">
+                <path d="M 130,140 h 6 v -6 h 4 v 6 h 6 v 4 h -6 v 6 h -4 v -6 h -6 z">
+                  <animateTransform attributeName="transform" type="translate" values="0,0; -5,-10; 0,0" dur="5s" repeatCount="indefinite"/>
+                </path>
+                <path d="M 360,200 h 4 v -4 h 3 v 4 h 4 v 3 h -4 v 4 h -3 v -4 h -4 z">
+                  <animateTransform attributeName="transform" type="translate" values="0,0; 5,-12; 0,0" dur="4.2s" repeatCount="indefinite"/>
+                </path>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 2: Objetivo -->
+    <section class="slide" id="slide-1">
+      <h2><i class="ph ph-target"></i> Objetivo</h2>
+      <p>Al finalizar esta revisión, podrás:</p>
+      
+      <div class="content-constrained">
+        <div class="card-style obj-text-card">
+          <p style="margin:0; font-size: 1.15rem; color: var(--c-blue-dark); line-height: 1.6;">
+            Conocer el proceso de manejo de Residuos de Establecimientos de Atención de Salud (REAS) en AmericaSalud. Entender y aplicar estas reglas nos ayuda a prevenir Infecciones Asociadas a la Atención de Salud (IAAS) y proteger a nuestros equipos.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 3: Pestañas -->
+    <section class="slide" id="slide-2">
+      <h2><i class="ph ph-trash"></i> Protocolos de Gestión de REAS</h2>
+      <p>La segregación efectiva desde el origen es obligatoria. Mezclar residuos incorrectamente expone a las personas a riesgos biológicos severos.</p>
+      
+      <div class="content-constrained">
+        <div class="tabs-nav">
+          <button class="tab-btn active" onclick="openTab(0)">🟨 Cortopunzantes <i class="ph ph-check check"></i></button>
+          <button class="tab-btn" onclick="openTab(1)">🟥 Biológicos <i class="ph ph-check check"></i></button>
+          <button class="tab-btn" onclick="openTab(2)">⬛ Basura Común <i class="ph ph-check check"></i></button>
+        </div>
+        
+        <div class="card-style tabs-box">
+          <div class="tab-content active" id="tab-0">
+            <p>Agujas, hojas de bisturí y ampollas rotas <strong>SIEMPRE</strong> deben desecharse en cajas amarillas rígidas para evitar punciones accidentales.</p>
+          </div>
+          <div class="tab-content" id="tab-1">
+            <p>Residuos con sangre, fluidos corporales o cultivos deben disponerse en bolsas rojas especiales para tratamiento térmico o incineración.</p>
+          </div>
+          <div class="tab-content" id="tab-2">
+            <p>Papeles de oficina, envoltorios no contaminados y restos de comida se desechan en basureros con bolsa negra. ¡Nunca deposites material clínico aquí!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 4: Hotspots (Celular) -->
+    <section class="slide" id="slide-3">
+      <h2><i class="ph ph-device-mobile"></i> Plataforma Protocolos AmericaSalud</h2>
+      <p>Para gestionar de forma segura los procedimientos, AmericaSalud usa una app digital para consulta rápida en box.</p>
+      
+      <div class="content-constrained">
+        <div class="phone-container">
+          <div class="phone-mockup">
+            
+            <div class="phone-screen">
+              <div class="sq-header">
+                <i class="ph ph-list"></i>
+                <span>FICHA DE MANEJO REAS</span>
+              </div>
+              
+              <div class="sq-body">
+                <div class="sq-card">
+                  <div class="sq-label">Categoría MINSAL</div>
+                  <div class="sq-val">Residuo Especial</div>
+                  <div class="sq-label">Tipo Específico</div>
+                  <div class="sq-val">CORTOPUNZANTE</div>
+                  <div class="sq-badge">DS N° 6/2009</div>
+                  <div class="sq-desc">MATERIALES QUE PUEDEN CAUSAR CORTE O PUNCIÓN (AGUJAS, BISTURÍS, ETC.)</div>
+                </div>
+                
+                <div class="sq-card" style="padding: 12px;">
+                  <div class="sq-diamonds">
+                    <!-- Símbolo Riesgo Biológico SVG Nativo -->
+                    <svg viewBox="0 0 100 100" style="width: 50px; height: 50px;">
+                      <polygon points="50,5 95,50 50,95 5,50" fill="#FACC15" stroke="#111" stroke-width="4"/>
+                      <!-- Biohazard drawing inside -->
+                      <circle cx="50" cy="50" r="22" fill="none" stroke="#111" stroke-width="3"/>
+                      <circle cx="50" cy="35" r="14" fill="none" stroke="#111" stroke-width="3"/>
+                      <circle cx="37" cy="58" r="14" fill="none" stroke="#111" stroke-width="3"/>
+                      <circle cx="63" cy="58" r="14" fill="none" stroke="#111" stroke-width="3"/>
+                    </svg>
+                  </div>
+                </div>
+                
+                <div class="sq-card" style="padding: 12px;">
+                  <div class="sq-docs">
+                    <div class="sq-doc-btn"><i class="ph ph-shield-check"></i> EPP</div>
+                    <div class="sq-doc-btn"><i class="ph ph-first-aid"></i> IAAS</div>
+                    <div class="sq-doc-btn"><i class="ph ph-file-text"></i> PROT</div>
+                    <div class="sq-doc-btn"><i class="ph ph-siren"></i> EMER</div>
+                  </div>
+                </div>
+                
+                <div class="sq-danger">
+                  <i class="ph ph-warning"></i> Riesgo de Punción
+                </div>
+                <div class="sq-link">
+                  <i class="ph ph-arrow-square-out"></i> Ver normativa completa
+                </div>
+              </div>
+            </div>
+
+            <!-- Hotspots -->
+            <div class="hotspot" id="hs1" style="top: 16%; left: 8%;" onclick="showTooltip(1, this)"></div>
+            <div class="hotspot" id="hs2" style="top: 35%; right: 8%;" onclick="showTooltip(2, this)"></div>
+            <div class="hotspot" id="hs3" style="top: 55%; left: 8%;" onclick="showTooltip(3, this)"></div>
+            <div class="hotspot" id="hs4" style="top: 73%; right: 8%;" onclick="showTooltip(4, this)"></div>
+
+            <div class="tooltip" id="tt1" style="top: 10%; left: calc(100% + 20px);"><strong>Clasificación:</strong> Categoría de desecho según normativa legal vigente.</div>
+            <div class="tooltip" id="tt2" style="top: 30%; right: calc(100% + 20px);"><strong>Normativa Legal:</strong> Referencia directa al Decreto Supremo que regula el manejo.</div>
+            <div class="tooltip" id="tt3" style="top: 50%; left: calc(100% + 20px);"><strong>Identificación de Riesgo:</strong> Rombo que alerta sobre el tipo de peligro (Ej. Biológico o Químico).</div>
+            <div class="tooltip" id="tt4" style="top: 68%; right: calc(100% + 20px);"><strong>Documentos Clínicos:</strong> Acceso rápido a protocolos de Elementos de Protección Personal y prevención IAAS.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 5: Acordeón -->
+    <section class="slide" id="slide-4">
+      <h2><i class="ph ph-buildings"></i> Almacenamiento (Decreto Supremo 6)</h2>
+      <p>El almacenamiento de REAS debe cumplir condiciones estrictas de infraestructura para evitar propagación de agentes patógenos:</p>
+      
+      <div class="content-constrained">
+        <div class="accordion-list">
+          <div class="acc-item">
+            <div class="acc-header" onclick="toggleAcc(this)">Generación en Box <i class="ph ph-caret-down"></i></div>
+            <div class="acc-body"><p>Segregación inmediata en origen. Los contenedores no deben sobrepasar 3/4 de su capacidad para evitar rebalses.</p></div>
+          </div>
+          <div class="acc-item">
+            <div class="acc-header" onclick="toggleAcc(this)">Almacenamiento Transitorio <i class="ph ph-caret-down"></i></div>
+            <div class="acc-body"><p>Sala de acopio temporal, lavable, con acceso restringido. Permanencia máxima de 24 horas.</p></div>
+          </div>
+          <div class="acc-item">
+            <div class="acc-header" onclick="toggleAcc(this)">Almacenamiento Final <i class="ph ph-caret-down"></i></div>
+            <div class="acc-body"><p>Bodega centralizada, en algunos casos refrigerada, autorizada por la SEREMI de Salud antes de la recolección externa.</p></div>
+          </div>
+          <div class="acc-item">
+            <div class="acc-header" onclick="toggleAcc(this)">Manejo de Derrames <i class="ph ph-caret-down"></i></div>
+            <div class="acc-body"><p>Uso inmediato de Kit Antiderrame biológico (solución clorada al 0.5% o 1%) con EPP completo.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 6: Monitoreo -->
+    <section class="slide" id="slide-5">
+      <h2><i class="ph ph-chart-line-up"></i> Calidad y Acreditación en Salud</h2>
+      <p>Nuestras operaciones clínicas son auditadas permanentemente para garantizar la seguridad del paciente y del personal.</p>
+      
+      <div class="content-constrained">
+        <div class="cards-list">
+          <div class="card-style" style="border-left: 4px solid var(--c-blue-dark);">
+            <p style="margin:0;"><strong>Monitoreo constante IAAS:</strong> Evaluamos nuestras tasas de infecciones intrahospitalarias mensualmente. El correcto manejo de la ropa clínica y REAS es fundamental para mantener indicadores bajos.</p>
+          </div>
+          <div class="card-style" style="border-left: 4px solid var(--c-sea);">
+            <p style="margin:0;"><strong>Acreditación MINSAL:</strong> Cumplimos estrictamente con la normativa vigente, lo que nos permite mantener nuestra certificación de calidad y brindar atención segura y de excelencia.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 7: Quiz 1 -->
+    <section class="slide" id="slide-6">
+      <h2><i class="ph ph-question"></i> Trivia: Pon a prueba tus conocimientos</h2>
+      <p>Terminas un procedimiento ambulatorio y tienes una aguja usada. ¿Dónde debes desecharla?</p>
+      
+      <div class="content-constrained">
+        <div class="options" id="quiz1-options">
+          <button class="option-btn" onclick="checkAnswer(1, false, this)">A) En la bolsa negra de basura común, envuelta en algodón.</button>
+          <button class="option-btn" onclick="checkAnswer(1, true, this)">B) Directamente en la caja amarilla rígida para cortopunzantes.</button>
+          <button class="option-btn" onclick="checkAnswer(1, false, this)">C) En la bolsa roja de residuos especiales biológicos.</button>
+        </div>
+        <div id="quiz1-feedback" class="feedback-box"></div>
+      </div>
+    </section>
+
+    <!-- Slide 8: Quiz 2 -->
+    <section class="slide" id="slide-7">
+      <h2><i class="ph ph-book-open"></i> Trivia: Normativa Legal</h2>
+      <p>¿Qué cuerpo normativo rige principalmente el manejo de residuos en establecimientos de salud en nuestro país?</p>
+      
+      <div class="content-constrained">
+        <div class="options" id="quiz2-options">
+          <button class="option-btn" onclick="checkAnswer(2, true, this)">A) El Decreto Supremo N° 6 (Reglamento sobre Manejo de REAS).</button>
+          <button class="option-btn" onclick="checkAnswer(2, false, this)">B) Exclusivamente las directrices internas de Recursos Humanos.</button>
+          <button class="option-btn" onclick="checkAnswer(2, false, this)">C) La Ley de Tránsito, para el transporte de ambulancias.</button>
+        </div>
+        <div id="quiz2-feedback" class="feedback-box"></div>
+      </div>
+    </section>
+
+    <!-- Slide 9: Resumen -->
+    <section class="slide" id="slide-8">
+      <h2><i class="ph ph-clipboard-text"></i> Resumiendo nuestro aprendizaje</h2>
+      <p>Puntos clave revisados en la inducción de AmericaSalud:</p>
+
+      <div class="content-constrained">
+        <div class="board">
+          <div class="sticky">
+            <div class="check-icon"><i class="ph ph-check"></i></div>
+            <p style="margin:0;"><strong>Segregación vital:</strong> Cajas amarillas para cortopunzantes, bolsas rojas para biológicos y bolsas negras para asimilables.</p>
+          </div>
+          <div class="sticky">
+            <div class="check-icon"><i class="ph ph-check"></i></div>
+            <p style="margin:0;"><strong>Uso de Protocolos:</strong> Consulta siempre la plataforma digital ante dudas de manejo y uso de EPP.</p>
+          </div>
+          <div class="sticky">
+            <div class="check-icon"><i class="ph ph-check"></i></div>
+            <p style="margin:0;"><strong>Capacidad máxima:</strong> Nunca llenes los contenedores más allá de 3/4 de su capacidad para evitar exposiciones.</p>
+          </div>
+          <div class="sticky">
+            <div class="check-icon"><i class="ph ph-check"></i></div>
+            <p style="margin:0;"><strong>Cumplimiento IAAS:</strong> Un correcto manejo de REAS es la principal barrera contra las infecciones intrahospitalarias.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 10: Cierre -->
+    <section class="slide" id="slide-9">
+      <div class="complete-screen">
+        <div class="badge-icon">
+          <i class="ph ph-medal"></i>
+        </div>
+        <h2>¡Excelente trabajo!</h2>
+        <p style="max-width: 600px;">Has completado esta inducción. Ahora conoces la importancia crítica de una correcta segregación y gestión de los Residuos de Establecimientos de Atención de Salud en AmericaSalud.</p>
+        <div class="card-style" style="max-width: 600px; margin-top: 16px; border: 1.5px solid var(--c-blue-main);">
+          <p style="margin:0; font-weight: 600; color: var(--c-blue-dark);">Recuerda: la seguridad de nuestros pacientes, del personal clínico y la calidad de nuestra atención están en las buenas decisiones que tomes cada día.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- FOOTER NAVEGACIÓN -->
+  <div class="footer-bar">
+    <div class="helper" id="helper-container">
+      <i class="ph ph-info"></i>
+      <span id="instruccion-text">Avanza a la siguiente pantalla para comenzar tu recorrido.</span>
+    </div>
+    <div style="display: flex; gap: 12px; margin-left: auto;">
+      <button class="btn btn-secondary" id="btn-prev" onclick="prevSlide()" style="display:none;">
+        <i class="ph ph-arrow-left"></i> Anterior
+      </button>
+      <button class="btn btn-primary" id="btn-next" onclick="nextSlide()">
+        Siguiente <i class="ph ph-arrow-right"></i>
+      </button>
+      <button class="btn btn-secondary" id="btn-restart" onclick="location.reload()" style="display:none;">
+        <i class="ph ph-arrow-counter-clockwise"></i> Reiniciar lección
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   MOTOR DE SONIDO
+   ============================================================ */
+const SoundEngine = (() => {
+  let ctx = null;
+  let muted = false;
+
+  const ensureCtx = () => {
+    if (!ctx) { try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return null; } }
+    if (ctx && ctx.state === 'suspended') { try { ctx.resume(); } catch (e) {} }
+    return ctx;
+  };
+
+  const playTone = ({ freq, duration = 0.18, type = 'sine', vol = 0.18, attack = 0.005, release = 0.12, freqEnd = null }) => {
+    if (muted) return;
+    try {
+      const c = ensureCtx();
+      if (!c || c.state !== 'running') return;
+      const t0 = c.currentTime;
+      const osc = c.createOscillator();
+      const gain = c.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, t0);
+      if (freqEnd !== null) osc.frequency.exponentialRampToValueAtTime(freqEnd, t0 + duration);
+      gain.gain.setValueAtTime(0, t0);
+      gain.gain.linearRampToValueAtTime(vol, t0 + attack);
+      gain.gain.linearRampToValueAtTime(vol * 0.7, t0 + duration - release);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
+      osc.connect(gain); gain.connect(c.destination);
+      osc.start(t0); osc.stop(t0 + duration + 0.02);
+    } catch (e) {}
+  };
+
+  return {
+    click: () => playTone({ freq: 880, duration: 0.07, type: 'triangle', vol: 0.10, freqEnd: 740 }),
+    check: () => {
+      playTone({ freq: 660, duration: 0.10, type: 'triangle', vol: 0.16 });
+      setTimeout(() => playTone({ freq: 880, duration: 0.12, type: 'triangle', vol: 0.16 }), 70);
+      setTimeout(() => playTone({ freq: 1175, duration: 0.18, type: 'sine', vol: 0.14 }), 150);
+    },
+    error: () => playTone({ freq: 300, duration: 0.25, type: 'sawtooth', vol: 0.15, freqEnd: 150 }),
+    advance: () => {
+      playTone({ freq: 440, duration: 0.10, type: 'sine', vol: 0.14 });
+      setTimeout(() => playTone({ freq: 660, duration: 0.16, type: 'sine', vol: 0.13 }), 80);
+    },
+    complete: () => {
+      const notes = [523.25, 659.25, 783.99, 1046.50];
+      notes.forEach((f, i) => setTimeout(() => playTone({ freq: f, duration: 0.22, type: 'triangle', vol: 0.18 }), i * 110));
+    },
+    setMuted: (val) => { muted = val; },
+    isMuted: () => muted,
+    unlock: () => { const c = ensureCtx(); if (c && c.state === 'suspended') { try { c.resume(); } catch (e) {} } }
+  };
+})();
+
+const unlockAudio = () => {
+  SoundEngine.unlock();
+  document.removeEventListener('pointerdown', unlockAudio);
+  document.removeEventListener('keydown', unlockAudio);
+  document.removeEventListener('touchstart', unlockAudio);
+};
+document.addEventListener('pointerdown', unlockAudio, { once: false });
+document.addEventListener('keydown', unlockAudio, { once: false });
+document.addEventListener('touchstart', unlockAudio, { once: false });
+
+document.getElementById('soundToggle').addEventListener('click', () => {
+  const muted = !SoundEngine.isMuted();
+  SoundEngine.setMuted(muted);
+  document.getElementById('soundOnIcon').style.display = muted ? 'none' : 'block';
+  document.getElementById('soundOffIcon').style.display = muted ? 'block' : 'none';
+  if (!muted) SoundEngine.click();
+});
+
+/* ============================================================
+   LÓGICA DE NAVEGACIÓN Y ESTADO
+   ============================================================ */
+let currentSlide = 0;
+const totalSlides = 10;
+const instructions = [
+  "Avanza a la siguiente pantalla para comenzar tu recorrido.",
+  "", 
+  "Haz clic en cada pestaña interactiva para descubrir los métodos de segregación.",
+  "Explora los puntos de interacción en la pantalla del celular para conocer nuestros protocolos.",
+  "Despliega cada sección del acordeón para revisar las reglas de almacenamiento clínico.",
+  "Revisa las medidas que aseguran nuestro estándar de calidad.",
+  "Selecciona la alternativa que consideres correcta.",
+  "Selecciona la alternativa que consideres correcta.",
+  "Repasa estos puntos clave de la inducción antes de finalizar el módulo.",
+  "" 
+];
+
+function updateProgress() {
+  const pct = ((currentSlide + 1) / totalSlides) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = currentSlide + 1;
+}
+
+function showSlide(index) {
+  document.querySelectorAll('.slide').forEach((el, i) => {
+    el.classList.remove('active');
+    if (i === index) el.classList.add('active');
+  });
+
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+  const btnRestart = document.getElementById('btn-restart');
+  const helperContainer = document.getElementById('helper-container');
+  const progWrap = document.getElementById('progressWrap');
+  
+  progWrap.style.display = 'block';
+  btnPrev.style.display = index === 0 ? 'none' : 'inline-flex';
+  
+  if (index === totalSlides - 1) {
+    btnNext.style.display = 'none';
+    btnRestart.style.display = 'inline-flex';
+    helperContainer.style.visibility = 'hidden'; 
+    SoundEngine.complete();
+  } else {
+    btnNext.style.display = 'inline-flex';
+    btnRestart.style.display = 'none';
+    
+    if (instructions[index] === "") {
+      helperContainer.style.visibility = 'hidden';
+    } else {
+      helperContainer.style.visibility = 'visible';
+      document.getElementById('instruccion-text').textContent = instructions[index];
+    }
+  }
+
+  btnNext.disabled = true;
+  if (index === 0 || index === 1 || index === 5 || index === 8) {
+    setTimeout(() => { btnNext.disabled = false; }, 1000);
+  } else {
+    if (index === 2 && tabsVisited.size === 3) btnNext.disabled = false;
+    if (index === 3 && hotspotsVisited.size === 4) btnNext.disabled = false;
+    if (index === 4 && accVisited.size === 4) btnNext.disabled = false;
+    if (index === 6 && quiz1Answered) btnNext.disabled = false;
+    if (index === 7 && quiz2Answered) btnNext.disabled = false;
+  }
+  
+  updateProgress();
+}
+
+function nextSlide() {
+  if (currentSlide < totalSlides - 1) {
+    SoundEngine.advance();
+    currentSlide++;
+    showSlide(currentSlide);
+    document.querySelector('.slides').scrollTop = 0;
+  }
+}
+
+function prevSlide() {
+  if (currentSlide > 0) {
+    SoundEngine.click();
+    currentSlide--;
+    showSlide(currentSlide);
+    document.querySelector('.slides').scrollTop = 0;
+  }
+}
+
+/* ============================================================
+   INTERACCIONES ESPECÍFICAS
+   ============================================================ */
+
+// S3: Pestañas
+let tabsVisited = new Set();
+function openTab(index) {
+  SoundEngine.click();
+  tabsVisited.add(index);
+  document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+    btn.classList.remove('active');
+    if(tabsVisited.has(i)) btn.classList.add('visited');
+    if (i === index) btn.classList.add('active');
+  });
+  document.querySelectorAll('.tab-content').forEach((content, i) => {
+    content.classList.remove('active');
+    if (i === index) content.classList.add('active');
+  });
+  if (tabsVisited.size === 3) document.getElementById('btn-next').disabled = false;
+}
+
+// S4: Hotspots
+let hotspotsVisited = new Set();
+function showTooltip(id, element) {
+  SoundEngine.click();
+  hotspotsVisited.add(id);
+  element.classList.add('visited');
+  
+  const isMobile = window.innerWidth <= 540;
+  document.querySelectorAll('.tooltip').forEach(tt => tt.style.display = 'none');
+  
+  const tooltip = document.getElementById('tt' + id);
+  if (isMobile) {
+    tooltip.style.top = 'auto'; tooltip.style.bottom = '-80px'; 
+    tooltip.style.left = '50%'; tooltip.style.transform = 'translateX(-50%)';
+    tooltip.style.right = 'auto';
+  }
+  tooltip.style.display = 'block';
+
+  if (hotspotsVisited.size === 4) document.getElementById('btn-next').disabled = false;
+}
+
+// S5: Acordeón
+let accVisited = new Set();
+function toggleAcc(header) {
+  SoundEngine.click();
+  const item = header.parentElement;
+  const index = Array.from(item.parentElement.children).indexOf(item);
+  accVisited.add(index);
+  header.classList.add('visited');
+  
+  if (item.classList.contains('open')) {
+    item.classList.remove('open');
+  } else {
+    document.querySelectorAll('.acc-item').forEach(el => el.classList.remove('open'));
+    item.classList.add('open');
+  }
+  if (accVisited.size === 4) document.getElementById('btn-next').disabled = false;
+}
+
+// S6 & S7: Quizzes
+let quiz1Answered = false;
+let quiz2Answered = false;
+
+function checkAnswer(quizNum, isCorrect, btnElement) {
+  if ((quizNum === 1 && quiz1Answered) || (quizNum === 2 && quiz2Answered)) return;
+  
+  const optionsContainer = document.getElementById(`quiz${quizNum}-options`);
+  const feedbackBox = document.getElementById(`quiz${quizNum}-feedback`);
+  
+  Array.from(optionsContainer.children).forEach(btn => {
+    btn.disabled = true;
+    if (btn !== btnElement) btn.classList.add('incorrect');
+  });
+
+  feedbackBox.style.display = 'block';
+
+  if (isCorrect) {
+    SoundEngine.check();
+    btnElement.classList.add('correct');
+    feedbackBox.className = 'feedback-box success';
+    
+    if (quizNum === 1) {
+      feedbackBox.innerHTML = "<strong>¡Exacto!</strong> Nunca expongas al personal de aseo o clínico. Todo material cortopunzante debe ir en las cajas amarillas especializadas (rígidas) a prueba de perforaciones.";
+      quiz1Answered = true;
+    } else {
+      feedbackBox.innerHTML = "<strong>¡Muy bien!</strong> El DS N° 6 de 2009 es el Reglamento sobre el Manejo de Residuos de Establecimientos de Atención de Salud (REAS).";
+      quiz2Answered = true;
+    }
+  } else {
+    SoundEngine.error();
+    btnElement.classList.add('incorrect');
+    feedbackBox.className = 'feedback-box error';
+    
+    if (quizNum === 1) {
+      feedbackBox.innerHTML = "<strong>Incorrecta :(</strong> Las agujas o bisturís traspasan las bolsas plásticas. La única disposición correcta es en la caja amarilla rígida de cortopunzantes.";
+      quiz1Answered = true; 
+    } else {
+      feedbackBox.innerHTML = "<strong>Incorrecta :(</strong> El cuerpo legal específico para temas de residuos sanitarios y clínicos es el DS N° 6 (Reglamento REAS)."; 
+      quiz2Answered = true; 
+    }
+  }
+  document.getElementById('btn-next').disabled = false;
+}
+
+// Inicializar
+showSlide(0);
+
+</script>
+</body>
+</html>
