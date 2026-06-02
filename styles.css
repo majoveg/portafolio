@@ -20,8 +20,7 @@
   --font-serif: "Instrument Serif", "Cormorant Garamond", Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
-  --density: 1;        /* multiplier for vertical rhythm (Tweaks) */
-  --motion: 1;         /* 0 = off, 0.5 = subtle, 1 = normal, 1.4 = expressive */
+  --density: 1;
   --gutter: clamp(20px, 5vw, 80px);
 }
 
@@ -424,7 +423,6 @@ html[data-theme="dark"] .blob { mix-blend-mode: screen; opacity: 0.5; }
 .case--lg    { grid-column: span 7; }
 .case--md    { grid-column: span 5; }
 .case--third { grid-column: span 4; }
-.case--sm    { grid-column: span 6; } /* legado */
 
 @media (max-width: 1023px) {
   .cases { grid-auto-rows: clamp(200px, 34vw, 340px); }
@@ -432,7 +430,7 @@ html[data-theme="dark"] .blob { mix-blend-mode: screen; opacity: 0.5; }
 }
 @media (max-width: 767px) {
   .cases { grid-auto-rows: clamp(240px, 58vw, 360px); }
-  .case--lg, .case--md, .case--third, .case--sm { grid-column: span 12; }
+  .case--lg, .case--md, .case--third { grid-column: span 12; }
 }
 
 .case__visual {
