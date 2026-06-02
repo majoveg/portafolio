@@ -1,19 +1,10 @@
-// app.jsx — root component, nav, fog, cursor, tweaks panel orchestration
+// app.jsx — root component, nav, fog, cursor
 
 const { useState: useStateA, useEffect: useEffectA, useRef: useRefA, useMemo: useMemoA } = React;
 
-const PALETTES = {
-  terracotta: { bg: "#f4efe9", text: "#1c1a17", blobA: "#e8a988", blobB: "#f0c7b1", blobC: "#d49982", accent: "#c97956" },
-  fog:        { bg: "#eef0f2", text: "#191a1d", blobA: "#a8b5cf", blobB: "#c5cee0", blobC: "#8a96b3", accent: "#6f7ea3" },
-  mist:       { bg: "#eef0ec", text: "#181a17", blobA: "#a8bca2", blobB: "#c8d6c0", blobC: "#7d967a", accent: "#5f7e60" },
-  blush:      { bg: "#f3eceb", text: "#1a1716", blobA: "#e3a6b0", blobB: "#f0cad0", blobC: "#c98993", accent: "#a55e6b" }
-};
-
-const TYPE_PRESETS = {
-  hanken:  { sans: '"Hanken Grotesk", "Söhne", ui-sans-serif, system-ui, sans-serif', serif: '"Instrument Serif", Georgia, serif', mono: '"JetBrains Mono", ui-monospace, Menlo, monospace' },
-  manrope: { sans: '"Manrope", ui-sans-serif, system-ui, sans-serif', serif: '"Cormorant Garamond", Georgia, serif', mono: '"IBM Plex Mono", ui-monospace, Menlo, monospace' },
-  geist:   { sans: '"Geist", ui-sans-serif, system-ui, sans-serif', serif: '"DM Serif Display", Georgia, serif', mono: '"Geist Mono", ui-monospace, Menlo, monospace' }
-};
+// Design tokens — paleta terracotta + tipografía Hanken
+const PALETTE = { bg: "#f4efe9", text: "#1c1a17", blobA: "#e8a988", blobB: "#f0c7b1", blobC: "#d49982", accent: "#c97956" };
+const TYPE    = { sans: '"Hanken Grotesk", ui-sans-serif, system-ui, sans-serif', serif: '"Instrument Serif", Georgia, serif', mono: '"JetBrains Mono", ui-monospace, Menlo, monospace' };
 
 // ─────────────────────────────────────────────────────────────────────────────
 // NAV
@@ -122,16 +113,18 @@ function SectionDots() {
   const sections = ["top", "philosophy", "work", "skills", "process", "timeline", "playground", "contact"];
   const [active, setActive] = useStateA("top");
   useEffectA(() => {
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) setActive(e.target.id);
-      });
-    }, { threshold: 0.45, rootMargin: "-30% 0px -30% 0px" });
-    sections.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) obs.observe(el);
-    });
-    return () => obs.disconnect();
+    const trigger = window.innerHeight * 0.35; // 35% desde el top — punto de activación
+    const update = () => {
+      let current = sections[0];
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= trigger) current = id;
+      }
+      setActive(current);
+    };
+    window.addEventListener("scroll", update, { passive: true });
+    update(); // estado inicial
+    return () => window.removeEventListener("scroll", update);
   }, []);
   const go = (id) => {
     const el = document.getElementById(id);
@@ -164,10 +157,10 @@ function App() {
   useGlobalReveal();
 
   const content = window.CONTENT[lang];
-  const palette = PALETTES.terracotta;
-  const type = TYPE_PRESETS.hanken;
+  const palette = PALETTE;
+  const type    = TYPE;
 
-  // Apply CSS variables for palette / type / motion / density
+  // Apply palette + typography CSS variables on mount
   useEffectA(() => {
     const root = document.documentElement;
     root.style.setProperty("--bg", palette.bg);
@@ -179,8 +172,6 @@ function App() {
     root.style.setProperty("--font-sans", type.sans);
     root.style.setProperty("--font-serif", type.serif);
     root.style.setProperty("--font-mono", type.mono);
-    root.style.setProperty("--motion", "1");
-    root.style.setProperty("--density", "1");
   }, []);
 
   const progress = useScrollProgress();
