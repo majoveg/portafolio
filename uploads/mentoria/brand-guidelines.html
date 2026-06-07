@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brand Guidelines — MentorIA · DL Innova</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // Lucide icons — graceful emoji fallback if CDN fails
+    const _L = window.lucideReact || {};
+    const Zap            = _L.Zap            || (({ size, className }) => <span className={className} style={{ fontSize: size }}>⚡</span>);
+    const BookOpen       = _L.BookOpen       || (({ size, className }) => <span className={className} style={{ fontSize: size }}>📖</span>);
+    const MessageCircle  = _L.MessageCircle  || (({ size, className }) => <span className={className} style={{ fontSize: size }}>💬</span>);
+    const Palette        = _L.Palette        || (({ size, className }) => <span className={className} style={{ fontSize: size }}>🎨</span>);
+    const Type           = _L.Type           || (({ size, className }) => <span className={className} style={{ fontSize: size }}>T</span>);
+    const Camera         = _L.Camera         || (({ size, className }) => <span className={className} style={{ fontSize: size }}>📷</span>);
+    const Video          = _L.Video          || (({ size, className }) => <span className={className} style={{ fontSize: size }}>🎥</span>);
+    const ChevronRight   = _L.ChevronRight   || (({ size, className }) => <span className={className} style={{ fontSize: size }}>›</span>);
+    const Sun            = _L.Sun            || (({ size, className }) => <span className={className} style={{ fontSize: size }}>☀</span>);
+    const LayoutTemplate = _L.LayoutTemplate || (({ size, className }) => <span className={className} style={{ fontSize: size }}>⊞</span>);
+
+    const colors = [
+      { name: 'Royal Gold',    hex: '#F9DC5C', use: 'Acentos, botones, llamados a la acción.',          desc: 'Amarillo cálido y vibrante. Evoca energía, dinamismo y alerta amigable.',                      text: '#03256C' },
+      { name: 'Imperial Blue', hex: '#03256C', use: 'Textos generales, fondos densos.',                  desc: 'Tono base. Aporta seriedad y contraste óptimo para la lectura.',                               text: '#FFFFFF' },
+      { name: 'Persian Blue',  hex: '#2541B2', use: 'Estructurar datos duros, separadores.',             desc: 'Azul medio para transiciones y elementos secundarios de interfaz.',                            text: '#FFFFFF' },
+      { name: 'Ocean Deep',    hex: '#1768AC', use: 'Infografías y calculadoras.',                       desc: 'Tono de apoyo para visualización de datos y gráficos.',                                        text: '#FFFFFF' },
+      { name: 'Sky Surge',     hex: '#06BEE1', use: 'Jerarquización de textos, links, acentos fríos.',  desc: 'Celeste brillante. Estética digital, comunicación clara y eficiencia.',                        text: '#03256C' },
+    ];
+
+    const NavLink = ({ href, icon: Icon, children }) => (
+      <a href={href} className="flex items-center gap-2 text-sm font-medium text-[#03256C]/70 hover:text-[#06BEE1] transition-colors" style={{ fontFamily: "'Inter', sans-serif" }}>
+        <Icon size={16} />
+        <span className="hidden md:inline">{children}</span>
+      </a>
+    );
+
+    const BrandGuidelines = () => {
+      const [activeSection, setActiveSection] = useState('hero');
+
+      useEffect(() => {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@400;500;600;700;900&display=swap';
+        document.head.appendChild(link);
+        document.body.style.backgroundColor = '#f8fafc';
+        document.body.style.color = '#03256C';
+        return () => document.head.removeChild(link);
+      }, []);
+
+      return (
+        <div className="min-h-screen bg-slate-50 text-[#03256C]" style={{ fontFamily: "'Inter', sans-serif" }}>
+
+          {/* Navigation */}
+          <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 px-6 py-4">
+            <div className="max-w-6xl mx-auto flex justify-between items-center">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-[#F9DC5C] flex items-center justify-center">
+                  <Zap size={18} className="text-[#03256C]" />
+                </div>
+                <span className="font-bold text-lg text-[#03256C] tracking-tight" style={{ fontFamily: "'Poppins', sans-serif" }}>MentorIA</span>
+              </div>
+              <div className="flex gap-6">
+                <NavLink href="#adn"       icon={BookOpen}>ADN</NavLink>
+                <NavLink href="#identidad" icon={Palette}>Identidad</NavLink>
+                <NavLink href="#arte"      icon={Camera}>Arte</NavLink>
+              </div>
+            </div>
+          </nav>
+
+          {/* Hero */}
+          <header className="relative bg-[#03256C] text-white overflow-hidden py-32 px-6">
+            <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#06BEE1] rounded-full mix-blend-multiply filter blur-[120px] opacity-20 animate-pulse"></div>
+            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#2541B2] rounded-full mix-blend-multiply filter blur-[100px] opacity-40"></div>
+
+            <div className="max-w-6xl mx-auto relative z-10 flex flex-col items-start">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#1768AC]/30 border border-[#06BEE1]/30 text-[#06BEE1] text-sm font-semibold mb-8 backdrop-blur-sm">
+                <span className="w-2 h-2 rounded-full bg-[#F9DC5C] animate-ping"></span>
+                Actualización V2.0
+              </div>
+              <h1 className="font-black text-5xl md:text-7xl leading-tight mb-6 max-w-4xl" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                Haz visible lo{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#06BEE1] to-[#F9DC5C]">invisible.</span>
+              </h1>
+              <p className="text-xl md:text-2xl text-slate-300 max-w-2xl leading-relaxed mb-10">
+                Lineamientos de diseño instruccional y UX para el curso:{' '}
+                <strong className="text-white font-medium block mt-2">Introducción a la Eficiencia Energética</strong>
+              </p>
+              <a href="#adn" className="bg-[#F9DC5C] hover:bg-yellow-400 text-[#03256C] font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:-translate-y-1 shadow-[0_10px_40px_-10px_rgba(249,220,92,0.5)] flex items-center gap-2" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                Explorar Guías <ChevronRight size={20} />
+              </a>
+            </div>
+          </header>
+
+          {/* ADN */}
+          <section id="adn" className="py-24 px-6 max-w-6xl mx-auto">
+            <div className="mb-16">
+              <h2 className="font-bold text-3xl md:text-4xl text-[#03256C] mb-4 flex items-center gap-3" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                <BookOpen className="text-[#06BEE1]" size={32} />
+                ADN de la Experiencia
+              </h2>
+              <p className="text-lg text-[#03256C]/70">Los fundamentos narrativos y emocionales de nuestro producto.</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-white p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 hover:border-[#06BEE1]/30 transition-colors">
+                <div className="w-14 h-14 rounded-2xl bg-[#03256C]/5 flex items-center justify-center mb-6">
+                  <Sun className="text-[#F9DC5C]" size={28} />
+                </div>
+                <h3 className="font-bold text-xl mb-4 text-[#03256C]" style={{ fontFamily: "'Poppins', sans-serif" }}>Concepto Rector</h3>
+                <p className="text-[#03256C]/80 leading-relaxed text-sm">
+                  "El impacto invisible de tus hábitos cotidianos: descubre el poder de tu energía."
+                </p>
+                <div className="mt-6 pt-6 border-t border-slate-100 text-sm text-[#03256C]/60 italic">
+                  Un viaje desde la sensibilización hasta la acción concreta.
+                </div>
+              </div>
+
+              <div className="bg-[#03256C] p-8 rounded-3xl shadow-xl shadow-blue-900/20 transform md:-translate-y-4 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[#2541B2] rounded-bl-full opacity-50 transition-transform group-hover:scale-110"></div>
+                <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center mb-6 relative z-10">
+                  <MessageCircle className="text-[#06BEE1]" size={28} />
+                </div>
+                <h3 className="font-bold text-xl mb-4 text-white relative z-10" style={{ fontFamily: "'Poppins', sans-serif" }}>Arquetipo del Facilitador</h3>
+                <p className="text-blue-100 leading-relaxed text-sm relative z-10">
+                  <strong className="text-[#F9DC5C]">El Colega Mentor.</strong> No somos académicos distantes, somos pares experimentados. Hablamos en segunda persona ("tú") para humanizar el contenido y reducir la distancia psicológica.
+                </p>
+              </div>
+
+              <div className="bg-white p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 hover:border-[#06BEE1]/30 transition-colors">
+                <div className="w-14 h-14 rounded-2xl bg-[#03256C]/5 flex items-center justify-center mb-6">
+                  <LayoutTemplate className="text-[#1768AC]" size={28} />
+                </div>
+                <h3 className="font-bold text-xl mb-4 text-[#03256C]" style={{ fontFamily: "'Poppins', sans-serif" }}>Conductas de Salida</h3>
+                <p className="text-[#03256C]/80 leading-relaxed text-sm">
+                  Lograr comprender y aplicar buenas prácticas concretas en el entorno inmediato (ej. ajustar el aire, suspender equipos). Éxitos tangibles, no abstracciones globales.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-12 flex flex-wrap gap-4">
+              <span className="px-5 py-2 rounded-full bg-slate-100 text-sm font-semibold text-[#03256C]" style={{ fontFamily: "'Poppins', sans-serif" }}>Empático</span>
+              <span className="px-5 py-2 rounded-full bg-slate-100 text-sm font-semibold text-[#03256C]" style={{ fontFamily: "'Poppins', sans-serif" }}>Conversacional</span>
+              <span className="px-5 py-2 rounded-full bg-slate-100 text-sm font-semibold text-[#03256C]" style={{ fontFamily: "'Poppins', sans-serif" }}>Desmitificador</span>
+              <span className="px-5 py-2 rounded-full bg-[#F9DC5C] text-sm font-semibold text-[#03256C]"  style={{ fontFamily: "'Poppins', sans-serif" }}>Motivador</span>
+            </div>
+          </section>
+
+          {/* Identidad */}
+          <section id="identidad" className="py-24 px-6 bg-white border-y border-slate-200">
+            <div className="max-w-6xl mx-auto">
+              <div className="mb-16">
+                <h2 className="font-bold text-3xl md:text-4xl text-[#03256C] mb-4 flex items-center gap-3" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                  <Palette className="text-[#2541B2]" size={32} />
+                  Atmósfera Visual
+                </h2>
+                <p className="text-lg text-[#03256C]/70">Sistema de diseño adaptado al contexto educativo.</p>
+              </div>
+
+              <h3 className="font-semibold text-2xl text-[#03256C] mb-8" style={{ fontFamily: "'Poppins', sans-serif" }}>Paleta de Color Institucional</h3>
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-16">
+                {colors.map((c, i) => (
+                  <div key={i} className="group cursor-pointer rounded-2xl overflow-hidden shadow-sm border border-slate-100 transition-all hover:shadow-xl hover:-translate-y-2">
+                    <div className="h-32 p-4 flex flex-col justify-end" style={{ backgroundColor: c.hex, color: c.text }}>
+                      <span className="font-bold text-lg" style={{ fontFamily: "'Poppins', sans-serif" }}>{c.hex}</span>
+                    </div>
+                    <div className="p-5 bg-white">
+                      <h4 className="font-bold text-sm text-[#03256C] mb-2" style={{ fontFamily: "'Poppins', sans-serif" }}>{c.name}</h4>
+                      <p className="text-xs text-[#03256C]/60 mb-3">{c.desc}</p>
+                      <div className="text-[11px] font-medium px-2 py-1 bg-slate-100 rounded text-[#03256C] inline-block">
+                        Uso: {c.use}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
+                <div className="bg-[#03256C] p-8 rounded-3xl text-white">
+                  <h4 className="font-bold mb-2" style={{ fontFamily: "'Poppins', sans-serif" }}>Sobre fondos densos</h4>
+                  <p className="text-sm text-blue-100 mb-6">Cuando se utilicen bloques azules, la tipografía debe ir obligatoriamente en Blanco (#FFFFFF) o Celeste (#06BEE1) para jerarquizar.</p>
+                  <div className="p-4 border border-blue-400/30 rounded-xl bg-white/5">
+                    <span className="text-[#06BEE1] font-bold block mb-1" style={{ fontFamily: "'Poppins', sans-serif" }}>Dato Clave</span>
+                    <span className="text-white">El 30% de la energía se pierde en modo standby.</span>
+                  </div>
+                </div>
+                <div className="bg-[#F9DC5C] p-8 rounded-3xl text-[#03256C]">
+                  <h4 className="font-bold mb-2" style={{ fontFamily: "'Poppins', sans-serif" }}>Sobre fondos de alerta</h4>
+                  <p className="text-sm mb-6 opacity-80">Si se emplean contenedores en Amarillo, usar texto oscuro (#03256C) para asegurar un contraste óptimo.</p>
+                  <div className="p-4 border border-[#03256C]/10 rounded-xl bg-white/30 backdrop-blur-sm">
+                    <span className="font-black block mb-1" style={{ fontFamily: "'Poppins', sans-serif" }}>¡Llamado a la Acción!</span>
+                    <button className="bg-[#03256C] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#2541B2] transition-colors">Apaga tus equipos</button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-slate-100 pt-16">
+                <h3 className="font-semibold text-2xl text-[#03256C] mb-8 flex items-center gap-2" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                  <Type className="text-[#06BEE1]" size={24} /> Tipografía
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                  <div>
+                    <div className="mb-2 text-[#06BEE1] font-semibold text-sm" style={{ fontFamily: "'Poppins', sans-serif" }}>TÍTULOS Y JERARQUÍA</div>
+                    <div className="font-black text-6xl text-[#03256C] mb-2 leading-none" style={{ fontFamily: "'Poppins', sans-serif" }}>Poppins</div>
+                    <p className="text-sm text-[#03256C]/60 mb-6">Pesos: Regular, Medium, SemiBold, Bold, Black.</p>
+                    <div className="space-y-4">
+                      <h1 className="font-black text-4xl text-[#03256C]"      style={{ fontFamily: "'Poppins', sans-serif" }}>H1 Título Principal</h1>
+                      <h2 className="font-bold text-2xl text-[#2541B2]"       style={{ fontFamily: "'Poppins', sans-serif" }}>H2 Subtítulo de Sección</h2>
+                      <h3 className="font-semibold text-xl text-[#1768AC]"    style={{ fontFamily: "'Poppins', sans-serif" }}>H3 Subtítulo Menor</h3>
+                      <blockquote className="border-l-4 border-[#F9DC5C] pl-4 text-lg italic text-[#03256C]/80 mt-4" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                        "Utilizado también para Citas destacadas."
+                      </blockquote>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="mb-2 text-[#06BEE1] font-semibold text-sm" style={{ fontFamily: "'Poppins', sans-serif" }}>CUERPO Y LECTURA</div>
+                    <div className="font-bold text-6xl text-[#03256C] mb-2 leading-none tracking-tight" style={{ fontFamily: "'Inter', sans-serif" }}>Inter</div>
+                    <p className="text-sm text-[#03256C]/60 mb-6">Pesos: Light, Regular, Medium, SemiBold.</p>
+                    <div className="space-y-4" style={{ fontFamily: "'Inter', sans-serif" }}>
+                      <p className="text-[#03256C] leading-relaxed">
+                        <strong>Párrafo General:</strong> El texto de los conceptos e indicadores debe ir en gris oscuro o Imperial Blue para asegurar claridad y legibilidad.
+                      </p>
+                      <div className="bg-slate-100 p-4 rounded-xl text-sm text-[#03256C]/80">
+                        <strong>Call-outs &amp; UI:</strong> Utilizado para botones, elementos interactivos, navegación y destacados rápidos.
+                      </div>
+                      <button className="bg-[#03256C] text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-md shadow-blue-900/20 hover:bg-[#2541B2] transition-colors w-full sm:w-auto">
+                        Botón UI Inter Medium
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Arte */}
+          <section id="arte" className="py-24 px-6 bg-[#03256C] text-white">
+            <div className="max-w-6xl mx-auto">
+              <div className="mb-16">
+                <h2 className="font-bold text-3xl md:text-4xl text-white mb-4 flex items-center gap-3" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                  <Camera className="text-[#F9DC5C]" size={32} />
+                  Dirección de Arte y Objetos
+                </h2>
+                <p className="text-lg text-blue-200">Minimalista, realista y orientada a la UI. Estilo "Fotonovela".</p>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div className="space-y-8">
+                  {[
+                    { n: 1, title: 'Realismo Cercano',      body: 'Fotografía realista corporativa. No usar: renders 3D plásticos, estilo cómic o ilustración infantil. Luz natural ("window light") para transmitir energía limpia.' },
+                    { n: 2, title: 'Integración de Paleta', body: 'Azules para estructurar el ambiente (paredes, sillas, ropa). Amarillo estrictamente como acento: un post-it, luz LED de standby. Entrena el ojo del usuario.' },
+                    { n: 3, title: 'UI & Espacio Negativo', body: 'Generous negative space para superponer texto. Priorizar planos detalle (macro/close-ups) en acciones, y mostrar contrastes Estado A vs Estado B.' },
+                  ].map(({ n, title, body }) => (
+                    <div key={n} className="flex gap-4">
+                      <div className="w-12 h-12 rounded-full bg-[#2541B2] flex items-center justify-center flex-shrink-0 font-bold">{n}</div>
+                      <div>
+                        <h4 className="font-bold text-xl mb-2 text-[#F9DC5C]" style={{ fontFamily: "'Poppins', sans-serif" }}>{title}</h4>
+                        <p className="text-blue-100 text-sm">{body}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="bg-white rounded-2xl p-1 shadow-2xl shadow-blue-900/50">
+                  <div className="bg-slate-50 rounded-xl p-6 border border-slate-100">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="font-bold text-[#03256C] text-sm flex items-center gap-2" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                        <Zap size={16} className="text-[#06BEE1]" /> AI Prompt Structure
+                      </span>
+                      <span className="px-2 py-1 bg-[#F9DC5C]/20 text-[#03256C] text-xs font-bold rounded">Midjourney</span>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2 mb-4 text-xs font-semibold">
+                      <span className="px-2 py-1 bg-[#03256C] text-white rounded">[Plano y Sujeto]</span>
+                      <span className="px-2 py-1 bg-[#1768AC] text-white rounded">[Acción energética]</span>
+                      <span className="px-2 py-1 bg-[#06BEE1] text-[#03256C] rounded">[Entorno]</span>
+                      <span className="px-2 py-1 bg-[#F9DC5C] text-[#03256C] rounded">[Colores]</span>
+                      <span className="px-2 py-1 bg-slate-200 text-[#03256C] rounded">[Estilo/UI]</span>
+                    </div>
+
+                    <div className="bg-white p-4 rounded-lg border border-slate-200 text-sm text-[#03256C]/80 leading-relaxed italic mb-4">
+                      "Extreme close-up macro photography of a modern laptop closed on an office desk, a single tiny bright{' '}
+                      <strong className="text-[#F9DC5C] not-italic font-bold" style={{ backgroundColor: '#03256C', padding: '1px 4px', borderRadius: 3 }}>warm yellow LED light glowing</strong>
+                      {' '}representing standby mode. Dark blue office elements in blur, realistic, 8k,{' '}
+                      <strong className="not-italic text-[#03256C] font-bold">generous negative space on top right</strong>
+                      {' '}--ar 16:9"
+                    </div>
+
+                    <div className="p-3 bg-red-50 text-red-800 text-xs rounded-lg border border-red-100">
+                      <strong className="block mb-1" style={{ fontFamily: "'Poppins', sans-serif" }}>Negative Prompt Obligatorio:</strong>
+                      cartoon, 3d render, illustration, comic book style, dystopian, messy desk.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Video & Audio */}
+          <section className="py-16 px-6 bg-[#2541B2] text-white">
+            <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+              <div>
+                <h3 className="font-bold text-2xl mb-2 flex items-center gap-2" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                  <Video className="text-[#06BEE1]" size={28} /> Configuración de Video / Audio
+                </h3>
+                <p className="text-blue-200 text-sm max-w-lg">
+                  Para los módulos de aprendizaje en video, mantén consistencia en los avatares y locuciones para no romper el arquetipo de "Colega Mentor".
+                </p>
+              </div>
+              <div className="bg-[#03256C] p-6 rounded-xl border border-white/10 w-full md:w-auto shadow-xl flex-shrink-0">
+                <div className="grid grid-cols-2 gap-x-8 gap-y-4 text-sm">
+                  <div className="text-blue-300">Voz:</div>        <div className="font-semibold text-white">Juan Carlos 1</div>
+                  <div className="text-blue-300">Modelo:</div>     <div className="font-semibold text-white">V2 Eleven Multilingual v2</div>
+                  <div className="text-blue-300">Estabilidad:</div><div className="font-semibold text-[#06BEE1]">Alta (Más estable)</div>
+                  <div className="text-blue-300">Similitud:</div>  <div className="font-semibold text-[#F9DC5C]">Baja</div>
+                  <div className="text-blue-300">Formato:</div>    <div className="font-semibold text-white">MP3 (128kbps)</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Footer */}
+          <footer className="bg-[#03256C] pt-8 pb-12 px-6 border-t border-white/10 text-center">
+            <div className="max-w-6xl mx-auto">
+              <div className="w-12 h-12 rounded-full bg-[#F9DC5C] flex items-center justify-center mx-auto mb-6">
+                <Zap size={24} className="text-[#03256C]" />
+              </div>
+              <h2 className="font-bold text-2xl text-white mb-2" style={{ fontFamily: "'Poppins', sans-serif" }}>Energiza tus hábitos.</h2>
+              <p className="text-blue-200 text-sm mb-8">Diseñado bajo los lineamientos de UI/UX y Estrategia Instruccional.</p>
+              <p className="text-xs text-blue-400">© 2026 Manual de Marca · Eficiencia Energética</p>
+            </div>
+          </footer>
+
+        </div>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<BrandGuidelines />);
+  </script>
+</body>
+</html>
