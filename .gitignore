@@ -13,3 +13,6 @@
 # Local env
 .env
 .env.local
+
+# Claude Code session data
+.claude/

@@ -1,7 +1,7 @@
 // sections.jsx — all narrative sections of the portfolio
 // Loaded after utils.jsx; consumes window.{RichText, useReveal, PlaceholderArt}
 
-const { useState: useStateS, useEffect: useEffectS, useRef: useRefS, useMemo: useMemoS } = React;
+const { useState: useStateS, useEffect: useEffectS, useRef: useRefS, useMemo: useMemoS, useCallback: useCallbackS } = React;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // HERO
@@ -108,7 +108,7 @@ function Work({ t, lang, onOpen }) {
 
       <div className="cases">
         {t.work.cases.map((c, i) =>
-        <a key={c.id} className={`case reveal ${sizes[i]}`} data-cursor="hover"
+        <button key={c.id} className={`case reveal ${sizes[i]}`} data-cursor="hover"
         onClick={() => onOpen(c.id)}>
             <div className="case__visual">
               <CaseImage
@@ -127,7 +127,7 @@ function Work({ t, lang, onOpen }) {
               </div>
               <div className="case__year">{c.year}</div>
             </div>
-          </a>
+          </button>
         )}
       </div>
     </section>);
@@ -248,16 +248,27 @@ function CaseModal({ caseData, lang, onClose }) {
                 />
                 {window.CASE_IMAGES?.[caseData.id]?.video && (() => {
                   const v = window.CASE_IMAGES[caseData.id].video;
+                  const posterSrc = v.poster ? v.poster + ".png" : undefined;
                   return (
                     <div className="modal__section modal__section--video" id={`${caseData.id}--demo`}>
                       <h4>{lang === "en" ? v.label_en : v.label_es}</h4>
                       <div className="modal__video-wrap">
-                        <iframe
-                          src={`https://www.youtube.com/embed/${v.youtubeId}`}
-                          title={lang === "en" ? v.label_en : v.label_es}
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        />
+                        {v.src ? (
+                          <video
+                            src={v.src + ".mp4"}
+                            poster={posterSrc}
+                            controls
+                            preload="metadata"
+                            playsInline
+                          />
+                        ) : (
+                          <iframe
+                            src={`https://www.youtube.com/embed/${v.youtubeId}`}
+                            title={lang === "en" ? v.label_en : v.label_es}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                          />
+                        )}
                       </div>
                     </div>
                   );
@@ -289,32 +300,28 @@ function CaseModal({ caseData, lang, onClose }) {
 function Skills({ t }) {
   const ref = useReveal();
   // node positions in % of container
+  // Positions/sizes are layout data; labels come from t.skills.nodeLabels for i18n
   const nodes = [
-  // 4 anchors (big)
-  { x: 28, y: 22, label: "Diseño UX/UI", size: "big", em: true }, // 0
-  { x: 72, y: 22, label: "Estrategia", size: "big", em: true }, // 1
-  { x: 28, y: 62, label: "Investigación", size: "big", em: true }, // 2
-  { x: 72, y: 62, label: "Datos", size: "big", em: true }, // 3
-
-  // mid satellites
-  { x: 12, y: 11, label: "Figma", size: "mid" }, // 4
-  { x: 50, y: 8, label: "Design Systems", size: "mid" }, // 5
-  { x: 12, y: 35, label: "Brand thinking", size: "mid", em: true }, // 6
-  { x: 88, y: 11, label: "Design Thinking", size: "mid" }, // 7
-  { x: 62, y: 38, label: "Stakeholders", size: "mid" }, // 8
-  { x: 50, y: 50, label: "Cultura", size: "mid", em: true }, // 9
-
-  // small chips
-  { x: 12, y: 56, label: "Pruebas de usabilidad", size: "sm" }, // 10
-  { x: 14, y: 78, label: "A/B Testing", size: "sm" }, // 11
-  { x: 88, y: 32, label: "Scrum", size: "sm" }, // 12
-  { x: 86, y: 44, label: "Kanban", size: "sm" }, // 13
-  { x: 88, y: 58, label: "Excel", size: "sm" }, // 14
-  { x: 60, y: 78, label: "Claude", size: "sm" }, // 15
-  { x: 76, y: 82, label: "Gemini", size: "sm" }, // 16
-  { x: 90, y: 76, label: "n8n", size: "sm" }, // 17
-  { x: 32, y: 92, label: "EN · B1", size: "sm" }, // 18
-  { x: 48, y: 96, label: "FR · A1", size: "sm" } // 19
+    { x: 28, y: 22, size: "big", em: true },  // 0
+    { x: 72, y: 22, size: "big", em: true },  // 1
+    { x: 28, y: 62, size: "big", em: true },  // 2
+    { x: 72, y: 62, size: "big", em: true },  // 3
+    { x: 12, y: 11, size: "mid" },            // 4
+    { x: 50, y: 8,  size: "mid" },            // 5
+    { x: 12, y: 35, size: "mid", em: true },  // 6
+    { x: 88, y: 11, size: "mid" },            // 7
+    { x: 62, y: 38, size: "mid" },            // 8
+    { x: 50, y: 50, size: "mid", em: true },  // 9
+    { x: 12, y: 56, size: "sm" },             // 10
+    { x: 14, y: 78, size: "sm" },             // 11
+    { x: 88, y: 32, size: "sm" },             // 12
+    { x: 86, y: 44, size: "sm" },             // 13
+    { x: 88, y: 58, size: "sm" },             // 14
+    { x: 60, y: 78, size: "sm" },             // 15
+    { x: 76, y: 82, size: "sm" },             // 16
+    { x: 90, y: 76, size: "sm" },             // 17
+    { x: 32, y: 92, size: "sm" },             // 18
+    { x: 48, y: 96, size: "sm" },             // 19
   ];
   // connection lines — drawn between node indices
   const links = [
@@ -355,7 +362,7 @@ function Skills({ t }) {
         <div key={i}
         className={`skill-node skill-node--${n.size}`}
         style={{ left: `${n.x}%`, top: `${n.y}%` }}>
-            {n.em ? <em>{n.label}</em> : n.label}
+            {n.em ? <em>{t.skills.nodeLabels[i]}</em> : t.skills.nodeLabels[i]}
           </div>
         )}
       </div>
@@ -409,7 +416,7 @@ function Process({ t }) {
 
               <>
                   <div className="dot" />
-                  <div className="name" style={{ backgroundColor: "rgb(244, 239, 233)", padding: "0px 0px 0px 8px" }}>{i === emphasis ? <em style={{ fontWeight: "600" }}>{s}</em> : s}</div>
+                  <div className="name" style={{ backgroundColor: "var(--bg)", padding: "0px 0px 0px 8px" }}>{i === emphasis ? <em style={{ fontWeight: "600" }}>{s}</em> : s}</div>
                   <div className="hint">{String(i + 1).padStart(2, "0")}</div>
                 </>
               }
@@ -473,105 +480,211 @@ function Playground({ t }) {
         </div>
         <p className="lede reveal">{t.playground.lede}</p>
       </div>
-
-      <div className="playground">
-        {t.playground.cards.map((c, i) =>
-        <PlayCard key={i} title={c.title} cap={c.cap} variant={i} />
-        )}
+      <div className="playground-marquee">
+        <div className="playground-track">
+          <div className="playground-set">
+            {t.playground.cards.map((c, i) =>
+              <PlayCard key={i} uid={`a${i}`} title={c.title} cap={c.cap} variant={i} pdf={c.pdf || null} />
+            )}
+          </div>
+          <div className="playground-set" aria-hidden="true">
+            {t.playground.cards.map((c, i) =>
+              <PlayCard key={`b${i}`} uid={`b${i}`} title={c.title} cap={c.cap} variant={i} pdf={c.pdf || null} />
+            )}
+          </div>
+        </div>
       </div>
-    </section>);
-
+    </section>
+  );
 }
 
-function PlayCard({ title, cap, variant }) {
+function PlayCard({ title, cap, variant, uid = "x", pdf = null }) {
   const ref = useRefS(null);
   const [hover, setHover] = useStateS(false);
   const [pos, setPos] = useStateS({ x: 50, y: 50 });
-  const onMove = (e) => {
+
+  const onMove = useCallbackS((e) => {
     if (!ref.current) return;
     const r = ref.current.getBoundingClientRect();
     setPos({ x: (e.clientX - r.left) / r.width * 100, y: (e.clientY - r.top) / r.height * 100 });
-  };
-  const visuals = [
-  // Card 0 — Details matter: color blob WITH breathing typography
-  <div key="v0" style={{ position: "absolute", inset: 0 }}>
+  }, []);
+
+  const visuals = useMemoS(() => [
+    // v0 — Los detalles importan: warm gradient + contrasting Aa typography
+    <div key="v0" style={{ position: "absolute", inset: 0 }}>
       <div style={{
-      position: "absolute", inset: 0,
-      background: `radial-gradient(circle at ${pos.x}% ${pos.y}%, var(--blob-a), transparent 55%), radial-gradient(circle at ${100 - pos.x}% ${100 - pos.y}%, var(--blob-c), transparent 55%)`,
-      filter: "blur(28px)", transition: "background 600ms ease"
-    }} />
-      <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
-        <span style={{
-        fontFamily: "var(--font-serif)", fontStyle: "italic",
-        fontSize: "150px", color: "var(--ink)", opacity: 0.75,
-        transform: `scale(${1 + (hover ? 0.06 : 0)})`,
-        transition: "transform 1200ms cubic-bezier(.22,.61,.36,1)",
-        mixBlendMode: "multiply"
-      }}>aa</span>
-      </div>
-    </div>,
-
-  // Card 1 — Branding as bridge: two clusters joined by a soft arc
-  <div key="v1" style={{ position: "absolute", inset: 0 }}>
-      <svg viewBox="0 0 400 280" preserveAspectRatio="xMidYMid meet" width="100%" height="100%">
-        <defs>
-          <radialGradient id="bg-a" cx="20%" cy="50%" r="60%">
-            <stop offset="0%" stopColor="var(--blob-a)" stopOpacity="0.55" />
-            <stop offset="100%" stopColor="var(--blob-a)" stopOpacity="0" />
-          </radialGradient>
-          <radialGradient id="bg-b" cx="80%" cy="50%" r="60%">
-            <stop offset="0%" stopColor="var(--blob-c)" stopOpacity="0.55" />
-            <stop offset="100%" stopColor="var(--blob-c)" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-        <circle cx="80" cy="140" r="70" fill="url(#bg-a)" />
-        <circle cx="320" cy="140" r="70" fill="url(#bg-b)" />
-        <circle cx="80" cy="140" r="14" fill="var(--ink)" />
-        <circle cx="320" cy="140" r="14" fill="var(--ink)" />
-        <path d={`M 96 140 Q 200 ${80 + (hover ? -10 : 10)}, 304 140`} stroke="var(--ink)" strokeWidth="1" fill="none" strokeDasharray="3 4" style={{ transition: "d 800ms ease" }} />
-        <text x="60" y="180" fontSize="9" fontFamily="var(--font-mono)" fill="var(--ink-mute)" letterSpacing="1.5">PERSONA</text>
-        <text x="285" y="180" fontSize="9" fontFamily="var(--font-mono)" fill="var(--ink-mute)" letterSpacing="1.5">MERCADO</text>
+        position: "absolute", inset: 0,
+        background: `radial-gradient(circle at ${pos.x}% ${pos.y}%, var(--blob-a), transparent 55%), radial-gradient(circle at ${100-pos.x}% ${100-pos.y}%, var(--blob-c), transparent 55%)`,
+        filter: "blur(28px)", transition: "background 600ms ease"
+      }} />
+      <svg viewBox="0 0 400 300" width="100%" height="100%" style={{ position: "absolute", inset: 0 }}>
+        <text x="18" y="268" fontSize="240" fontFamily="var(--font-serif)" fontStyle="italic" fontWeight="300"
+          fill="var(--ink)" opacity="0.45">A</text>
+        <text x="185" y="258" fontSize="200" fontFamily="var(--font-sans)" fontWeight="700"
+          fill="var(--ink)" opacity="0.72"
+          style={{ transition: "transform 1200ms cubic-bezier(.22,.61,.36,1)",
+                   transform: hover ? "scale(1.06)" : "scale(1)", transformOrigin: "260px 200px" }}>a</text>
       </svg>
     </div>,
 
-  // Card 2 — Claude + n8n: reactive mesh of dots
-  <div key="v2" style={{ position: "absolute", inset: 0 }}>
-      <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" width="100%" height="100%">
-        {[...Array(80)].map((_, i) => {
-        const cx = i % 10 * 40 + 20;
-        const cy = Math.floor(i / 10) * 40 + 20;
-        const dx = cx - pos.x / 100 * 400;
-        const dy = cy - pos.y / 100 * 300;
-        const d = Math.sqrt(dx * dx + dy * dy);
-        const r = Math.max(1, 4 - d / 60);
-        return <circle key={i} cx={cx} cy={cy} r={r} fill="var(--accent)" opacity={0.5} />;
-      })}
+    // v1 — Agentes con Claude + n8n: minimal node workflow tree
+    <div key="v1" style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
+      <svg viewBox="0 0 400 290" width="100%" height="100%" fill="none">
+        {[[200,148,78,88],[200,148,200,44],[200,148,322,88],[200,148,78,208],[200,148,322,208]].map(([x1,y1,x2,y2],i) =>
+          <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--ink)" strokeWidth="0.9" strokeOpacity="0.28" />
+        )}
+        {[[78,88,28,44],[78,88,34,158],[322,88,372,44],[322,208,372,252]].map(([x1,y1,x2,y2],i) =>
+          <line key={`lf${i}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--ink)" strokeWidth="0.55" strokeOpacity="0.18" />
+        )}
+        {[[28,44],[34,158],[372,44],[372,252]].map(([cx,cy],i) =>
+          <circle key={`leaf${i}`} cx={cx} cy={cy} r={6.5} fill="var(--bg-soft)" stroke="var(--ink)" strokeWidth="0.6" strokeOpacity="0.3" />
+        )}
+        {[[78,88],[200,44],[322,88],[78,208],[322,208]].map(([cx,cy],i) =>
+          <circle key={`br${i}`} cx={cx} cy={cy} r={13} fill="var(--bg-soft)" stroke="var(--ink)" strokeWidth="0.85" strokeOpacity="0.42" />
+        )}
+        <circle cx="200" cy="148" r="26" fill="var(--accent)" opacity="0.18" />
+        <circle cx="200" cy="148" r="18" fill="var(--accent)" opacity="0.92" />
+        <text x="200" y="152" fontSize="7.5" fontFamily="var(--font-mono)" fill="white" textAnchor="middle" letterSpacing="0.8">AI</text>
       </svg>
     </div>,
 
-  // Card 3 — Hand-drawn iteration arc: idea → fail → iter
-  <div key="v3" style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
-      <svg viewBox="0 0 360 220" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" fill="none">
-        <path d="M 30 160 Q 100 60, 180 130 T 320 80" stroke="var(--ink-soft)" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-        <circle cx="30" cy="160" r="3" fill="var(--ink)" />
-        <circle cx="180" cy="130" r="3" fill="var(--ink)" />
-        <path d="M 312 85 L 322 78 L 320 90" stroke="var(--ink-soft)" strokeWidth="1.2" strokeLinecap="round" fill="none" />
-        <text x="20" y="185" fill="var(--ink-mute)" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="1.2">IDEA</text>
-        <text x="160" y="155" fill="var(--ink-mute)" fontSize="10" fontFamily="var(--font-mono)" letterSpacing="1.2">FAIL</text>
-        <text x="280" y="65" fill="var(--accent)" fontSize="12" fontFamily="var(--font-serif)" fontStyle="italic">iterar</text>
+    // v2 — Poster científico: abstract academic poster layout
+    <div key="v2" style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
+      <svg viewBox="0 0 240 318" width="66%" height="88%" fill="none">
+        <rect x="1" y="1" width="238" height="316" rx="2" stroke="var(--ink)" strokeWidth="0.65" strokeOpacity="0.38" />
+        <rect x="8" y="8" width="224" height="32" rx="1" fill="var(--ink)" fillOpacity="0.1" />
+        <rect x="8" y="46" width="148" height="5.5" rx="1" fill="var(--ink)" fillOpacity="0.1" />
+        <rect x="8" y="56" width="88" height="5.5" rx="1" fill="var(--ink)" fillOpacity="0.07" />
+        <line x1="8" y1="70" x2="232" y2="70" stroke="var(--ink)" strokeWidth="0.4" strokeOpacity="0.22" />
+        {[79,88,97,106,115].map(y => <rect key={y} x="8" y={y} width="100" height="4.5" rx="0.5" fill="var(--ink)" fillOpacity="0.1" />)}
+        <rect x="8" y="130" width="100" height="72" rx="1" fill="var(--ink)" fillOpacity="0.05" stroke="var(--ink)" strokeWidth="0.4" strokeOpacity="0.22" />
+        {[[16,192,10,10],[30,182,10,20],[44,186,10,16],[58,178,10,24],[72,183,10,19],[86,191,8,11]].map(([x,y,w,h]) =>
+          <rect key={x} x={x} y={y} width={w} height={h} fill="var(--accent)" fillOpacity="0.52" />
+        )}
+        {[79,88,97,106,115,124,133,142,151,160,169,178,187].map(y =>
+          <rect key={y} x="118" y={y} width={108-(y%5)*4} height="4.5" rx="0.5" fill="var(--ink)" fillOpacity={y<130?0.1:0.07} />
+        )}
+        <line x1="8" y1="218" x2="232" y2="218" stroke="var(--ink)" strokeWidth="0.3" strokeOpacity="0.18" />
+        {[226,235,244,253].map(y => <rect key={y} x="8" y={y} width={140-(y%3)*12} height="3.5" rx="0.5" fill="var(--ink)" fillOpacity="0.07" />)}
+        {[226,235,244].map(y => <rect key={`r${y}`} x="158" y={y} width={68+(y%2)*6} height="3.5" rx="0.5" fill="var(--ink)" fillOpacity="0.05" />)}
       </svg>
-    </div>];
+    </div>,
+
+    // v3 — UX en salas de urgencias: horizontal funnel, chaos → process
+    <div key="v3" style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
+      <svg viewBox="0 0 400 260" width="100%" height="100%" fill="none">
+        {/* scattered input dots on the left — chaos */}
+        {[
+          [28,60],[18,98],[38,134],[22,168],[44,106],[14,72],[36,152],[48,84],[24,120],[42,144],
+          [56,65],[10,112],[50,130],[30,90],[62,158]
+        ].map(([cx,cy],i) => {
+          const progress = (cx - 10) / 60;
+          const targetCy = 130;
+          const animCy = hover ? cy + (targetCy - cy) * 0.45 : cy;
+          return (
+            <circle key={i} cx={cx} cy={animCy} r={3.2}
+              fill="var(--accent)" fillOpacity={0.35 + progress * 0.3}
+              style={{ transition: `cy 600ms cubic-bezier(.4,0,.2,1) ${i * 18}ms` }} />
+          );
+        })}
+        {/* funnel guide lines converging right */}
+        <path d="M 72 38 Q 160 80 248 112 L 350 112" stroke="var(--ink)" strokeWidth="0.55" strokeOpacity="0.22" />
+        <path d="M 72 222 Q 160 180 248 148 L 350 148" stroke="var(--ink)" strokeWidth="0.55" strokeOpacity="0.22" />
+        {/* structured output pill on the right */}
+        <rect x="248" y="104" width="104" height="52" rx="26"
+          fill="var(--accent)" fillOpacity={hover ? 0.18 : 0.1}
+          stroke="var(--ink)" strokeWidth="0.7" strokeOpacity="0.38"
+          style={{ transition: "fill-opacity 400ms ease" }} />
+        {/* converging dots flowing into the pill */}
+        {[112,122,130,138,148].map((cy,i) =>
+          <circle key={`in${i}`} cx={200 + i*8} cy={cy} r={2.8}
+            fill="var(--accent)" fillOpacity={0.55 + i * 0.08} />
+        )}
+        <text x="272" y="134" fontSize="7.5" fontFamily="var(--font-mono)" fill="var(--ink-mute)" letterSpacing="1.2">PROCESO</text>
+        <text x="30" y="248" fontSize="7.5" fontFamily="var(--font-mono)" fill="var(--ink-mute)" letterSpacing="1">INCERTIDUMBRE</text>
+        <text x="268" y="174" fontSize="7.5" fontFamily="var(--font-mono)" fill="var(--ink-mute)" letterSpacing="1">ESTRUCTURA</text>
+      </svg>
+    </div>,
+
+    // v4 — Diseño para Frutabots: typographic synthesis with leaf detail
+    <div key="v4" style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
+      <svg viewBox="0 0 400 280" width="100%" height="100%" fill="none">
+        <text x="200" y="118" fontSize="96" fontFamily="var(--font-sans)" fontWeight="800"
+          fill="var(--ink)" fillOpacity="0.88" textAnchor="middle" letterSpacing="-3">fruta</text>
+        <text x="200" y="200" fontSize="76" fontFamily="var(--font-sans)" fontWeight="800"
+          fill="var(--ink)" fillOpacity="0.88" textAnchor="middle" letterSpacing="6">BOTS</text>
+        {/* leaf shape inside the 'O' counter of BOTS — positioned at approx center of O */}
+        <g transform="translate(182, 163)">
+          {/* white punch-out oval to simulate counter */}
+          <ellipse cx="0" cy="0" rx="13" ry="16" fill="var(--bg-soft)" />
+          {/* leaf silhouette */}
+          <path d="M 0 -13 C 9 -9 9 9 0 13 C -9 9 -9 -9 0 -13 Z"
+            fill="var(--accent)" fillOpacity={hover ? 0.85 : 0.65}
+            style={{ transition: "fill-opacity 400ms ease" }} />
+          {/* leaf midrib */}
+          <line x1="0" y1="-11" x2="0" y2="11"
+            stroke="var(--bg-soft)" strokeWidth="0.8" strokeOpacity="0.7" />
+        </g>
+        {/* subtle underline rule */}
+        <line x1="80" y1="218" x2="320" y2="218"
+          stroke="var(--ink)" strokeWidth="0.4" strokeOpacity="0.2" />
+        <text x="200" y="232" fontSize="7" fontFamily="var(--font-mono)"
+          fill="var(--ink-mute)" textAnchor="middle" letterSpacing="3.5" fillOpacity="0.7">IDENTIDAD · AGROTECH</text>
+      </svg>
+    </div>,
+
+    // v5 — Del diseño a la enseñanza: knowledge transfer diagram
+    <div key="v5" style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
+      <svg viewBox="0 0 400 280" width="100%" height="100%" fill="none">
+        <circle cx="88" cy="140" r="34" fill="var(--accent)" fillOpacity="0.14"
+          stroke="var(--ink)" strokeWidth="0.85" strokeOpacity="0.38" />
+        <circle cx="88" cy="140" r="22" fill="var(--accent)" fillOpacity={hover ? 0.32 : 0.2}
+          style={{ transition: "fill-opacity 400ms ease" }} />
+        <text x="88" y="144" fontSize="7" fontFamily="var(--font-mono)" fill="var(--ink-mute)"
+          textAnchor="middle" letterSpacing="0.8">CAP</text>
+        {[[230,80],[305,80],[380,80],[230,200],[305,200],[380,200]].map(([cx,cy],i) => (
+          <g key={i}>
+            <line x1="122" y1="140" x2={cx-12} y2={cy}
+              stroke="var(--ink)" strokeWidth="0.55" strokeOpacity="0.2"
+              strokeDasharray="3 4" />
+            <circle cx={cx} cy={cy} r="18"
+              fill="var(--bg-soft)" stroke="var(--ink)" strokeWidth="0.7" strokeOpacity={hover ? 0.48 : 0.28}
+              style={{ transition: "stroke-opacity 400ms ease" }} />
+            <circle cx={cx} cy={cy} r="6"
+              fill="var(--ink)" fillOpacity={hover ? 0.22 : 0.12}
+              style={{ transition: "fill-opacity 400ms ease" }} />
+          </g>
+        ))}
+        <text x="88" y="192" fontSize="7" fontFamily="var(--font-mono)" fill="var(--ink-mute)"
+          textAnchor="middle" letterSpacing="0.8">DISEÑADORA</text>
+        <text x="305" y="236" fontSize="7" fontFamily="var(--font-mono)" fill="var(--ink-mute)"
+          textAnchor="middle" letterSpacing="0.8">USUARIOS</text>
+      </svg>
+    </div>
+  ], [hover, pos.x, pos.y, uid]);
 
   return (
-    <div className="play-card reveal" ref={ref}
-    onMouseEnter={() => setHover(true)}
-    onMouseLeave={() => setHover(false)}
-    onMouseMove={onMove}>
-      {visuals[variant]}
-      <div className="play-card__cap">{cap}</div>
-      <div className="play-card__title"><RichText parts={title} /></div>
-    </div>);
-
+    <div className="play-card" ref={ref}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onMouseMove={onMove}>
+      <div className="play-card__visual">
+        {visuals[variant]}
+      </div>
+      <div className="play-card__text">
+        <div className="play-card__cap">{cap}</div>
+        <div className="play-card__title"><RichText parts={title} /></div>
+        {pdf && (
+          <a className="play-card__dl" href={pdf.href} download onClick={e => e.stopPropagation()}>
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+              <path d="M5 1v6M2 5.5L5 8l3-2.5M1 9h8" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            {pdf.label}
+          </a>
+        )}
+      </div>
+    </div>
+  );
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -662,4 +775,4 @@ function CaseGallery({ items, palette, lang, sectionId }) {
   );
 }
 
-Object.assign(window, { Hero, Philosophy, Work, CaseModal, CaseGallery, Skills, Process, Timeline, Playground, Contact });
+Object.assign(window, { Hero, Philosophy, Work, CaseModal, Skills, Process, Timeline, Playground, Contact });

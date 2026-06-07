@@ -1,6 +1,6 @@
 // utils.jsx — shared helpers, reveal hooks, RichText renderer
 
-const { useState, useEffect, useRef, useCallback, useMemo } = React;
+const { useState, useEffect, useRef, useCallback, useMemo, useId } = React;
 
 // RichText: renders [string | {em: string}] segments. Used everywhere for em-italic accents.
 function RichText({ parts, asWords = false }) {
@@ -154,6 +154,7 @@ function usePrefersReducedMotion() {
 
 // Placeholder art — soft generative-feeling visual for case cards
 function PlaceholderArt({ palette, variant = "a" }) {
+  const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const style = {
     "--pa-bg": palette?.bg || "#efe2d3",
     "--pa-1": palette?.a || "#e8a988",
@@ -163,7 +164,7 @@ function PlaceholderArt({ palette, variant = "a" }) {
     a: (
       <svg viewBox="0 0 600 400" fill="none" preserveAspectRatio="xMidYMid slice" width="100%" height="100%">
         <defs>
-          <radialGradient id="pgA1" cx="30%" cy="30%" r="60%">
+          <radialGradient id={`pgA1-${uid}`} cx="30%" cy="30%" r="60%">
             <stop offset="0%" stopColor={palette?.a || "#e8a988"} stopOpacity="0.9" />
             <stop offset="100%" stopColor={palette?.a || "#e8a988"} stopOpacity="0" />
           </radialGradient>
@@ -172,7 +173,7 @@ function PlaceholderArt({ palette, variant = "a" }) {
           <line key={i} x1="0" y1={i * 18} x2="600" y2={i * 18 + 30}
             stroke={palette?.b || "#d68c69"} strokeOpacity="0.25" strokeWidth="0.6" />
         ))}
-        <circle cx="380" cy="190" r="120" fill="url(#pgA1)" />
+        <circle cx="380" cy="190" r="120" fill={`url(#pgA1-${uid})`} />
       </svg>
     ),
     b: (
@@ -221,9 +222,27 @@ function PlaceholderArt({ palette, variant = "a" }) {
 //   • "float"  — PNG floats over the existing palette background (drop-shadow, contain)
 // Falls back to PlaceholderArt + hint card while src is empty or fails to load.
 function CaseImage({ image, lang = "es", fallbackPalette, fallbackVariant = "a", className = "", showHint = true }) {
+  const [srcIndex, setSrcIndex] = useState(0);
   const [failed, setFailed] = useState(false);
+  const raw = (image && image.src) || "";
   const kind = (image && image.kind) || "photo";
-  const hasSrc = !!(image && image.src) && !failed;
+  const candidates = useMemo(() => {
+    if (!raw) return [];
+    if (kind === "video") return [raw + ".mp4", raw + ".webm"];
+    if (/\.(jpe?g|png|webp)$/i.test(raw)) {
+      const alt = /\.png$/i.test(raw)
+        ? raw.replace(/\.png$/i, ".jpg")
+        : raw.replace(/\.jpe?g$/i, ".png");
+      return [raw, alt];
+    }
+    return [raw + ".jpg", raw + ".png"];
+  }, [raw, kind]);
+  const activeSrc = candidates[srcIndex] || "";
+  const handleError = () => {
+    if (srcIndex + 1 < candidates.length) setSrcIndex(s => s + 1);
+    else setFailed(true);
+  };
+  const hasSrc = !!activeSrc && !failed;
   const hint = image ? (image[`hint_${lang}`] || image.hint || "") : "";
   const kindLabel = kind === "ui" ? "UI" : kind === "diagram" ? (lang === "en" ? "DIAGRAM" : "DIAGRAMA") : kind === "float" ? "PNG" : (lang === "en" ? "PHOTO" : "FOTO");
 
@@ -245,20 +264,29 @@ function CaseImage({ image, lang = "es", fallbackPalette, fallbackVariant = "a",
           <div className="case-img__frame">
             {renderChrome()}
             <img
-              src={image.src}
+              src={activeSrc}
               alt={image.alt || ""}
               loading="lazy"
               draggable={false}
-              onError={() => setFailed(true)}
+              onError={handleError}
             />
           </div>
         ) : kind === "diagram" ? (
           <img
-            src={image.src}
+            src={activeSrc}
             alt={image.alt || ""}
             loading="lazy"
             draggable={false}
-            onError={() => setFailed(true)}
+            onError={handleError}
+          />
+        ) : kind === "video" ? (
+          <video
+            src={activeSrc}
+            controls
+            preload="metadata"
+            playsInline
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            onError={handleError}
           />
         ) : kind === "float" ? (
           <>
@@ -266,13 +294,17 @@ function CaseImage({ image, lang = "es", fallbackPalette, fallbackVariant = "a",
               <PlaceholderArt palette={fallbackPalette} variant={fallbackVariant} />
             </div>
             <img
-              src={image.src}
+              src={activeSrc}
               alt={image.alt || ""}
               loading="lazy"
               draggable={false}
               className="case-img__float-img"
-              style={image.objectPosition ? { objectPosition: image.objectPosition } : undefined}
-              onError={() => setFailed(true)}
+              style={{
+                ...(image.objectPosition ? { objectPosition: image.objectPosition } : {}),
+                ...(image.objectFit ? { objectFit: image.objectFit } : {}),
+                ...(image.scale != null ? { transform: `scale(${image.scale})` } : {}),
+              }}
+              onError={handleError}
             />
             <span className="case-img__tint" aria-hidden="true" />
             <span className="case-img__glow" aria-hidden="true" />
@@ -280,11 +312,11 @@ function CaseImage({ image, lang = "es", fallbackPalette, fallbackVariant = "a",
         ) : (
           <>
             <img
-              src={image.src}
+              src={activeSrc}
               alt={image.alt || ""}
               loading="lazy"
               draggable={false}
-              onError={() => setFailed(true)}
+              onError={handleError}
             />
             <span className="case-img__tint" aria-hidden="true" />
             <span className="case-img__glow" aria-hidden="true" />

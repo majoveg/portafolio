@@ -44,7 +44,7 @@ window.CONTENT = {
 
     work: {
       eyebrow: "Trabajo seleccionado",
-      title: ["Siete proyectos, ", { em: "una forma" }, " de pensar."],
+      title: ["Siete proyectos, ", { em: "múltiples perspectivas" }, "."],
       lede: "De la salud auditiva al diseño industrial. Del tamizaje clínico al pitch enterprise. Cada caso es una decisión, un método, una métrica que se movió.",
       cases: [
         {
@@ -165,7 +165,14 @@ window.CONTENT = {
     skills: {
       eyebrow: "Habilidades",
       title: ["Un ", { em: "mapa" }, ", no una lista."],
-      lede: "Las herramientas son herramientas. Lo que conecta unas con otras es el método: pregunto, observo, mido, diseño, vuelvo a preguntar."
+      lede: "Las herramientas son herramientas. Lo que conecta unas con otras es el método: pregunto, observo, mido, diseño, vuelvo a preguntar.",
+      nodeLabels: [
+        "Diseño UX/UI", "Estrategia", "Investigación", "Datos",
+        "Figma", "Design Systems", "Brand thinking", "Design Thinking",
+        "Stakeholders", "Cultura",
+        "Pruebas de usabilidad", "A/B Testing", "Scrum", "Kanban", "Excel",
+        "Claude", "Gemini", "n8n", "EN · B1", "FR · A1"
+      ]
     },
 
     process: {
@@ -195,11 +202,11 @@ window.CONTENT = {
       lede: "Lo que hago cuando nadie me pide nada. Curiosidad sin brief.",
       cards: [
         { title: ["Los detalles ", { em: "importan" }], cap: "Color · Tipografía · 2025" },
-        { title: [{ em: "Branding" }, " como puente"], cap: "Frutabots · Identidad · ongoing" },
         { title: ["Agentes con ", { em: "Claude" }, " + n8n"], cap: "Automation · 2024" },
         { title: ["Poster ", { em: "científico" }], cap: "Comunicación científica · 2025" },
-        { title: ["UX en salas de ", { em: "urgencias" }], cap: "Investigación · Tesis · 2023" },
-        { title: ["Diagramas a mano ", { em: "digital" }], cap: "Figma · ongoing" }
+        { title: ["UX en salas de ", { em: "urgencias" }], cap: "Investigación · Tesis · 2023", pdf: { href: "uploads/playground/ux-urgencias.pdf", label: "Descargar presentación (PDF)" } },
+        { title: ["Diseño para ", { em: "Frutabots" }], cap: "Logotipo · Agrotech · 2023", pdf: { href: "uploads/playground/frutabots-brand.pdf", label: "Descargar brandbook (PDF)" } },
+        { title: ["Del diseño a la ", { em: "enseñanza" }], cap: "Capacitación · Usuarios · 2023", pdf: { href: "uploads/playground/otto-capacitacion.pdf", label: "Descargar presentación (PDF)" } }
       ]
     },
 
@@ -232,7 +239,6 @@ window.CONTENT = {
     philosophy: {
       eyebrow: "Philosophy",
       title: ["Design that ", { em: "breathes" }, ", decisions that ", { em: "hold" }, "."],
-      lede: "I don't start with screens. I start with people, problems and data. My approach crosses engineering with sensibility: clear hypotheses, short iterations, systems that scale.",
       principles: [
         {
           name: ["The right question ", { em: "before" }, " the brilliant answer."],
@@ -251,7 +257,7 @@ window.CONTENT = {
 
     work: {
       eyebrow: "Selected work",
-      title: ["Seven projects, ", { em: "one way" }, " of thinking."],
+      title: ["Seven projects, ", { em: "multiple perspectives" }, "."],
       lede: "From auditory health to industrial design. From clinical screening to enterprise pitch. Each case is a decision, a method, a metric that moved.",
       cases: [
         {
@@ -372,7 +378,14 @@ window.CONTENT = {
     skills: {
       eyebrow: "Skills",
       title: ["A ", { em: "map" }, ", not a list."],
-      lede: "Tools are tools. What connects them is the method: I ask, observe, measure, design, then ask again."
+      lede: "Tools are tools. What connects them is the method: I ask, observe, measure, design, then ask again.",
+      nodeLabels: [
+        "UX/UI Design", "Strategy", "Research", "Data",
+        "Figma", "Design Systems", "Brand thinking", "Design Thinking",
+        "Stakeholders", "Culture",
+        "Usability testing", "A/B Testing", "Scrum", "Kanban", "Excel",
+        "Claude", "Gemini", "n8n", "EN · B1", "FR · A1"
+      ]
     },
 
     process: {
@@ -402,11 +415,11 @@ window.CONTENT = {
       lede: "What I make when no one is asking. Curiosity without a brief.",
       cards: [
         { title: ["Details ", { em: "matter" }], cap: "Color · Type · 2025" },
-        { title: [{ em: "Branding" }, " as a bridge"], cap: "Frutabots · Identity · ongoing" },
         { title: ["Agents with ", { em: "Claude" }, " + n8n"], cap: "Automation · 2024" },
         { title: ["Scientific ", { em: "poster" }], cap: "Science communication · 2025" },
-        { title: ["UX in ", { em: "emergency" }, " rooms"], cap: "Research · Thesis · 2023" },
-        { title: ["Diagrams by ", { em: "digital" }, " hand"], cap: "Figma · ongoing" }
+        { title: ["UX in ", { em: "emergency" }, " rooms"], cap: "Research · Thesis · 2023", pdf: { href: "uploads/playground/ux-urgencias.pdf", label: "Download presentation (PDF)" } },
+        { title: ["Design for ", { em: "Frutabots" }], cap: "Logo · Agrotech · 2023", pdf: { href: "uploads/playground/frutabots-brand.pdf", label: "Download brandbook (PDF)" } },
+        { title: ["From design to ", { em: "teaching" }], cap: "Training · Users · 2023", pdf: { href: "uploads/playground/otto-capacitacion.pdf", label: "Download presentation (PDF)" } }
       ]
     },
 
@@ -437,6 +450,10 @@ window.CONTENT = {
 //   "diagram" — sin filtro, fondo neutro. Para journey maps, diagramas.
 //   "float"   — tratamiento hero con gradiente de color de la paleta del caso.
 //
+// Propiedades opcionales en hero (kind: "float"):
+//   objectFit?: "contain" | "cover"  — sobreescribe object-fit CSS (default: "cover")
+//   scale?: number                   — OBSOLETO, usar objectFit: "contain" en su lugar
+//
 // `size` values (gallery slots):
 //   "lg"       — grande, ocupa columna principal
 //   "md"       — mediano estándar
@@ -446,14 +463,28 @@ window.CONTENT = {
 //   "tall"     — vertical (más alto que ancho)
 //   "wide"     — horizontal apaisado
 //   "portrait" — vertical en proporción retrato
+//
+// Propiedad opcional en gallery items:
+//   download?: { href, label, open? }
+//     · open: true  → abre en pestaña nueva (para .html)
+//     · open: false/ausente → descarga directa (para .pdf)
+//
+// Propiedad `video` en el caso (nivel del caso, no de gallery):
+//   · src + poster  → video local (.mp4). poster concatena ".png" automáticamente.
+//   · youtubeId     → embed de YouTube
+//   label_es / label_en → título de la sección Demo
+//
+// Propiedad `pdf` en playground cards (en content.js, no aquí):
+//   { href, label } → link de descarga en el área de texto de la tarjeta
 // ─────────────────────────────────────────────────────────────────────────────
 window.CASE_IMAGES = {
 
   // ── 01 MENTORIA ────────────────────────────────────────────────────────────
   mentoria: {
     hero: {
-      src: "uploads/mentoria/hero.jpg",
+      src: "uploads/mentoria/hero",
       kind: "float",
+      objectFit: "contain",
       tag: "HERO",
       hint_es: "Foto editorial: persona frente a pantalla con interfaz de MentorIA visible, duotono cálido azul-índigo",
       hint_en: "Editorial photo: person in front of screen with MentorIA interface visible, warm blue-indigo duotone",
@@ -461,28 +492,29 @@ window.CASE_IMAGES = {
     },
     gallery: [
       {
-        src: "uploads/mentoria/flujo-autor.png", size: "lg", tag: "FLUJO AUTOR",
-        kind: "ui", chromeLabel: "MentorIA · Crear nuevo curso",
+        src: "uploads/mentoria/flujo-autor", size: "lg", tag: "FLUJO AUTOR",
+        kind: "diagram",
         hint_es: "Captura del flujo de creación de curso — pantalla principal o paso clave del proceso de autor",
         hint_en: "Course creation flow capture — main screen or key step in the author process",
         specs: "4:3 · 1400w · png · UI"
       },
       {
-        src: "uploads/mentoria/brand-guidelines.jpg", size: "sm-fill", tag: "BRAND GUIDE",
+        src: "uploads/mentoria/bupa-pitch", size: "sm-fill", tag: "PITCH BUPA",
+        kind: "photo",
+        hint_es: "Slide destacado del pitch a BUPA — visual de producto, sin datos sensibles de precio",
+        hint_en: "Highlighted slide from BUPA pitch — product visual only, no sensitive pricing data",
+        specs: "16:9 · 1600w · png · UI"
+      },
+      {
+        src: "uploads/mentoria/brand-guidelines", size: "wide", tag: "BRAND GUIDE",
         kind: "diagram",
         hint_es: "Captura del documento de brand guidelines de un cliente — paleta, arquetipo, tono visible",
         hint_en: "Client brand guidelines document capture — palette, archetype, tone visible",
-        specs: "4:3 · 1200w · jpg · DIAGRAMA"
-      },
-      {
-        src: "uploads/mentoria/bupa-pitch.png", size: "md-wide", tag: "PITCH BUPA",
-        kind: "ui", chromeLabel: "Propuesta comercial · BUPA Chile · dic 2025",
-        hint_es: "Slide destacado del pitch a BUPA — visual de producto, sin datos sensibles de precio",
-        hint_en: "Highlighted slide from BUPA pitch — product visual only, no sensitive pricing data",
-        specs: "16:9 · 1600w · png · UI",
+        specs: "4:3 · 1200w · jpg · DIAGRAMA",
         download: {
-          href: "uploads/mentoria/caso-estudio-mentoria.pdf",
-          label: "Caso de estudio — MentorIA"
+          href: "uploads/mentoria/brand-guidelines.html",
+          label: "Ver Brand Guidelines",
+          open: true
         }
       }
     ]
@@ -491,7 +523,7 @@ window.CASE_IMAGES = {
   // ── 02 ACADEMIA365 ──────────────────────────────────────────────────────────
   academia365: {
     hero: {
-      src: "uploads/academia365/hero.jpg",
+      src: "uploads/academia365/hero",
       kind: "float",
       tag: "HERO",
       hint_es: "Mockup editorial: laptop con Academia365 abierto sobre escritorio real, duotono cálido teal",
@@ -500,44 +532,39 @@ window.CASE_IMAGES = {
     },
     gallery: [
       {
-        src: "uploads/academia365/dashboard.png", size: "lg", tag: "DASHBOARD",
+        src: "uploads/academia365/dashboard", size: "lg", tag: "DASHBOARD",
         kind: "ui", chromeLabel: "academia365.cl/inicio",
         hint_es: "Dashboard principal de Academia365 — cursos recomendados, progreso y biblioteca de contenidos",
         hint_en: "Academia365 main dashboard — recommended courses, progress, and content library",
         specs: "4:3 · 1400w · png · UI"
       },
       {
-        src: "uploads/academia365/accesibilidad.png", size: "sm", tag: "ACCESIBILIDAD",
+        src: "uploads/academia365/accesibilidad", size: "sm", tag: "ACCESIBILIDAD",
         kind: "ui", chromeLabel: "Opciones de accesibilidad · Academia365",
         hint_es: "Panel de accesibilidad con perfiles TDAH, epilepsia, dislexia — captura real de la app",
         hint_en: "Accessibility panel with ADHD, epilepsy, dyslexia profiles — real app capture",
         specs: "1:1 · 1200w · png · UI"
       },
       {
-        src: "uploads/academia365/onboarding.png", size: "md", tag: "ONBOARDING",
-        kind: "ui", chromeLabel: "Onboarding digital · Academia365",
-        hint_es: "Módulo de onboarding para nuevo colaborador — checklist de bienvenida o progreso de etapas",
-        hint_en: "New employee digital onboarding — welcome checklist or stage progress screen",
-        specs: "4:3 · 1200w · png · UI"
-      },
-      {
-        src: "uploads/academia365/gamificacion.png", size: "md-wide", tag: "GAMIFICACIÓN",
+        src: "uploads/academia365/gamificación", size: "md-wide", tag: "GAMIFICACIÓN",
         kind: "ui", chromeLabel: "Insignias y logros · Academia365",
         hint_es: "Sistema de gamificación — insignias, tabla de clasificación o perfil de logros del colaborador",
         hint_en: "Gamification system — badges, leaderboard, or employee achievement profile",
-        specs: "16:9 · 1600w · png · UI",
-        download: {
-          href: "uploads/academia365/caso-estudio-academia365.pdf",
-          label: "Caso de estudio — Ac@demia365"
-        }
+        specs: "16:9 · 1600w · png · UI"
       }
-    ]
+    ],
+    video: {
+      src: "uploads/academia365/onboarding",
+      poster: "uploads/academia365/onboarding-preview",
+      label_es: "Video de bienvenida",
+      label_en: "Welcome Video"
+    }
   },
 
   // ── 03 YOPROFE ──────────────────────────────────────────────────────────────
   yoprofe: {
     hero: {
-      src: "uploads/yoprofe/hero.png",
+      src: "uploads/yoprofe/hero",
       kind: "float",
       tag: "HERO",
       hint_es: "Foto editorial: docente real usando YoProfe en contexto (tablet, desktop o aula), duotono cálido",
@@ -546,28 +573,28 @@ window.CASE_IMAGES = {
     },
     gallery: [
       {
-        src: "uploads/yoprofe/dashboard.png", size: "lg", tag: "DASHBOARD",
+        src: "uploads/yoprofe/dashboard", size: "lg", tag: "DASHBOARD",
         kind: "ui", chromeLabel: "app.yoprofe.cl/dashboard",
         hint_es: "Dashboard del profesor — vista principal con datos creíbles, captura desde la app real o Figma @2x",
         hint_en: "Teacher dashboard — main view with believable data, captured from the real app or Figma @2x",
         specs: "4:3 · 1400w · png · UI"
       },
       {
-        src: "uploads/yoprofe/research.jpg", size: "sm", tag: "RESEARCH",
+        src: "uploads/yoprofe/research", size: "sm", tag: "RESEARCH",
         kind: "photo",
         hint_es: "Captura de datos de investigación, encuesta o entrevista con docente (screenshot de Zoom OK)",
         hint_en: "Research data capture, survey, or teacher interview (Zoom screenshot OK)",
         specs: "1:1 · 1200w · jpg · FOTO"
       },
       {
-        src: "uploads/yoprofe/mobile.png", size: "tall", tag: "MOBILE",
+        src: "uploads/yoprofe/mobile", size: "tall", tag: "MOBILE",
         kind: "ui", chromeLabel: "YoProfe · iOS",
         hint_es: "Mockup mobile — flujo de registro o perfil docente paso a paso",
         hint_en: "Mobile mockup — registration flow or teacher profile step by step",
         specs: "3:4 · 900w · png · UI"
       },
       {
-        src: "uploads/yoprofe/design-system.png", size: "md", tag: "SISTEMA",
+        src: "uploads/yoprofe/design-system", size: "md", tag: "SISTEMA",
         kind: "ui", chromeLabel: "Figma · YoProfe Design System",
         hint_es: "Variables y componentes del design system YoProfe en Figma — auto-layout visible",
         hint_en: "Variables and components of the YoProfe design system in Figma — auto-layout visible",
@@ -584,7 +611,7 @@ window.CASE_IMAGES = {
   // ── 04 AMERICASALUD ─────────────────────────────────────────────────────────
   americasalud: {
     hero: {
-      src: "uploads/americasalud/hero.png",
+      src: "uploads/americasalud/hero",
       kind: "float",
       tag: "HERO",
       hint_es: "Customer journey map a tamaño completo — export limpio de Figma/Miro, fondo crudo, sin chrome",
@@ -593,21 +620,21 @@ window.CASE_IMAGES = {
     },
     gallery: [
       {
-        src: "uploads/americasalud/journey.png", size: "wide", tag: "JOURNEY",
+        src: "uploads/americasalud/journey", size: "wide", tag: "JOURNEY",
         kind: "diagram",
         hint_es: "Customer journey en detalle — touchpoints, emociones y oportunidades por etapa del estudiante",
         hint_en: "Customer journey close-up — touchpoints, emotions and opportunities per student stage",
         specs: "16:7 · 1800w · png · DIAGRAMA"
       },
       {
-        src: "uploads/americasalud/before-after.png", size: "sm", tag: "BEFORE/AFTER",
+        src: "uploads/americasalud/before-after", size: "sm", tag: "BEFORE/AFTER",
         kind: "photo",
         hint_es: "Antes vs. después de una pantalla clave (split horizontal o dos frames lado a lado)",
         hint_en: "Before vs. after of a key screen (horizontal split or two side-by-side frames)",
         specs: "4:3 · 1400w · png · UI"
       },
       {
-        src: "uploads/americasalud/actividad.jpg", size: "lg", tag: "ACTIVIDAD",
+        src: "uploads/americasalud/actividad", size: "lg", tag: "ACTIVIDAD",
         kind: "diagram",
         hint_es: "Foto de la actividad interactiva diseñada para el curso de inducción AmericaSalud",
         hint_en: "Photo of the interactive activity designed for the AmericaSalud induction course",
@@ -624,8 +651,9 @@ window.CASE_IMAGES = {
   // ── 05 LATAM ────────────────────────────────────────────────────────────────
   latam: {
     hero: {
-      src: "uploads/latam/hero.png",
+      src: "uploads/latam/hero",
       kind: "float",
+      objectFit: "contain",
       tag: "HERO",
       hint_es: "Captura del diseño final rediseñado — pantalla de selección de vuelo web, sin chrome de browser",
       hint_en: "Final redesign capture — web flight selection screen, no browser chrome",
@@ -633,34 +661,34 @@ window.CASE_IMAGES = {
     },
     gallery: [
       {
-        src: "uploads/latam/heuristica.png", size: "lg", tag: "HEURÍSTICA",
+        src: "uploads/latam/heuristica", size: "lg", tag: "HEURÍSTICA",
         kind: "diagram",
         hint_es: "Slide del análisis heurístico — problema identificado con captura del UI original anotado",
         hint_en: "Heuristic analysis slide — identified problem with annotated original UI capture",
         specs: "16:9 · 1600w · png · DIAGRAMA"
       },
       {
-        src: "uploads/latam/wireframe.png", size: "sm-fill", tag: "WIREFRAME",
+        src: "uploads/latam/wireframe", size: "sm-fill", tag: "WIREFRAME",
         kind: "diagram",
         hint_es: "Wireframe de la solución propuesta — bloques estructurales, sin color final",
         hint_en: "Wireframe of the proposed solution — structural blocks, no final color",
         specs: "4:3 · 1200w · png · DIAGRAMA"
       },
       {
-        src: "uploads/latam/atomic.png", size: "md", tag: "ATOMIC DESIGN",
+        src: "uploads/latam/atomic", size: "md", tag: "ATOMIC DESIGN",
         kind: "ui", chromeLabel: "Figma · LATAM Components",
         hint_es: "Componentes diseñados con metodología atómica — átomos, moléculas y organismos visibles",
         hint_en: "Components designed with atomic methodology — atoms, molecules and organisms visible",
         specs: "4:3 · 1200w · png · UI"
       },
       {
-        src: "uploads/latam/final-web.png", size: "md-wide", tag: "DISEÑO FINAL",
+        src: "uploads/latam/final-web", size: "md-wide", tag: "DISEÑO FINAL",
         kind: "ui", chromeLabel: "LATAM Airlines · Selección de vuelo (rediseño)",
         hint_es: "Pantalla final rediseñada — selección de vuelo con barra de progreso y resumen de viaje",
         hint_en: "Final redesigned screen — flight selection with progress bar and trip summary",
         specs: "16:9 · 1600w · png · UI",
         download: {
-          href: "uploads/latam/desafio-ux-latam.pdf",
+          href: "uploads/latam/desfio-ux-latam.pdf",
           label: "Ver presentación completa"
         }
       }
@@ -670,7 +698,7 @@ window.CASE_IMAGES = {
   // ── 06 SIMBIOTICA ───────────────────────────────────────────────────────────
   simbiotica: {
     hero: {
-      src: "uploads/simbiotica/hero.png",
+      src: "uploads/simbiotica/hero",
       kind: "float",
       tag: "HERO",
       hint_es: "Composición editorial de los tres productos Aisot, Tami y OTTO — collage de pantallas o duotono",
@@ -679,36 +707,39 @@ window.CASE_IMAGES = {
     },
     gallery: [
       {
-        src: "uploads/simbiotica/aisot.png", size: "portrait", tag: "AISOT",
-        kind: "ui", chromeLabel: "Aisot · Diagnóstico auditivo",
-        hint_es: "Interfaz principal de Aisot — pantalla de análisis auditivo o resultado de diagnóstico para médico general",
-        hint_en: "Aisot main interface — auditory analysis screen or diagnosis result for GP",
-        specs: "9:16 · 900w · png · UI"
+        src: "uploads/simbiotica/otto-desktop", size: "lg", tag: "OTTO DESKTOP",
+        kind: "diagram",
+        hint_es: "Interfaz desktop de OTTO — revisión de caso auditivo con imágenes del oído y diagnóstico",
+        hint_en: "OTTO desktop interface — auditory case review with ear images and diagnosis",
+        specs: "4:3 · 1400w · png"
       },
       {
-        src: "uploads/simbiotica/tami.png", size: "portrait", tag: "TAMI",
-        kind: "ui", chromeLabel: "Tami · Tamizaje auditivo",
-        hint_es: "Interfaz de Tami — pantalla de resultado de tamizaje para TENS (tapón, sin patología, indicio de patología)",
-        hint_en: "Tami interface — screening result for health technician (wax, no pathology, pathology indication)",
-        specs: "9:16 · 900w · png · UI"
+        src: "uploads/simbiotica/otto-mobile", size: "portrait", tag: "OTTO MOBILE",
+        kind: "diagram",
+        hint_es: "App mobile OTTO — caso del paciente con datos clínicos, imagen del oído y derivación",
+        hint_en: "OTTO mobile app — patient case with clinical data, ear image and referral",
+        specs: "9:16 · 900w · png"
       },
       {
-        src: "uploads/simbiotica/otto.png", size: "portrait", tag: "OTTO",
-        kind: "ui", chromeLabel: "OTTO · Telemedicina auditiva",
-        hint_es: "Interfaz de OTTO — pantalla del profesional grabando el oído con guía de IA, o del otorrino revisando caso remoto",
-        hint_en: "OTTO interface — professional recording ear with AI guidance, or ENT reviewing a remote case",
-        specs: "9:16 · 900w · png · UI"
+        src: "uploads/simbiotica/otto-examinador", size: "md", tag: "EXAMINADOR",
+        kind: "photo",
+        hint_es: "Foto editorial: profesional de salud realizando examen auditivo con otocopio",
+        hint_en: "Editorial photo: health professional performing ear exam with otoscope",
+        specs: "4:3 · 1400w · jpg · FOTO"
       },
       {
-        src: "uploads/simbiotica/terreno.jpg", size: "md-wide", tag: "TERRENO",
+        src: "uploads/simbiotica/otto-revisor", size: "md", tag: "REVISOR",
+        kind: "photo",
+        hint_es: "Foto editorial: profesional con guantes revisando instrumento de examen auditivo",
+        hint_en: "Editorial photo: professional with gloves reviewing auditory examination instrument",
+        specs: "4:3 · 1400w · jpg · FOTO"
+      },
+      {
+        src: "uploads/simbiotica/terreno", size: "wide", tag: "TERRENO",
         kind: "photo",
         hint_es: "Foto de observación en terreno o entrevista con profesional de salud — consulta, hospital u operativo",
         hint_en: "Field observation or health professional interview — clinic, hospital or health campaign setting",
-        specs: "16:9 · 1400w · jpg · FOTO",
-        download: {
-          href: "uploads/simbiotica/UX-en-salas-de-urgencias.pdf",
-          label: "UX en salas de urgencias"
-        }
+        specs: "16:9 · 1800w · jpg · FOTO",
       }
     ]
   },
@@ -716,7 +747,7 @@ window.CASE_IMAGES = {
   // ── 07 EXPO QUILLOTA ────────────────────────────────────────────────────────
   expoquillota: {
     hero: {
-      src: "uploads/expoquillota/hero.jpg",
+      src: "uploads/expoquillota/hero",
       kind: "float",
       tag: "HERO",
       hint_es: "Foto del galardón físico terminado — sobre superficie neutra o en manos de alguien, duotono cálido oliva",
@@ -725,32 +756,36 @@ window.CASE_IMAGES = {
     },
     gallery: [
       {
-        src: "uploads/expoquillota/proceso-galardon.jpg", size: "lg", tag: "PROCESO",
+        src: "uploads/expoquillota/proceso-galardon", size: "lg", tag: "PROCESO",
         kind: "photo",
         hint_es: "Collage o secuencia del proceso de diseño del galardón: bocetos iniciales, iteraciones y objeto final",
         hint_en: "Design process collage or sequence: initial sketches, iterations and final object",
         specs: "4:3 · 1400w · jpg · FOTO"
       },
       {
-        src: "uploads/expoquillota/render.png", size: "sm-fill", tag: "RENDER",
+        src: "uploads/expoquillota/render", size: "sm-fill", tag: "RENDER",
         kind: "ui", chromeLabel: "Render 3D · Galardón Expo Quillota 2025",
         hint_es: "Render 3D del galardón final — vista frontal o composición con contexto de la feria",
         hint_en: "3D render of the final award — front view or composition with fair context",
         specs: "1:1 · 1200w · png · UI"
       },
       {
-        src: "uploads/expoquillota/rrss.jpg", size: "md", tag: "REDES",
+        src: "uploads/expoquillota/rrss", size: "sm-fill", tag: "REDES",
         kind: "ui", chromeLabel: "Material RRSS · Expo Quillota 2025",
         hint_es: "Selección de piezas para redes sociales — stories, posts o grid de Instagram para stands de la feria",
         hint_en: "Social media pieces selection — stories, posts or Instagram grid for fair stands",
         specs: "1:1 · 1200w · png · UI"
       },
       {
-        src: "uploads/expoquillota/investigacion.png", size: "md-wide", tag: "INVESTIGACIÓN",
+        src: "uploads/expoquillota/investigacion", size: "lg", tag: "INVESTIGACIÓN",
         kind: "diagram",
         hint_es: "Slide o gráfico del informe post-evento — resultados por actor (expositores, trabajadores, público) o hallazgo clave",
         hint_en: "Post-event report slide or chart — results by stakeholder (exhibitors, staff, public) or key finding",
-        specs: "16:9 · 1600w · png · DIAGRAMA"
+        specs: "16:9 · 1600w · png · DIAGRAMA",
+        download: {
+          href: "uploads/expoquillota/investigacion.pdf",
+          label: "Informe Expo Quillota"
+        }
       }
     ]
   }
